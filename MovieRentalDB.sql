@@ -1,0 +1,157 @@
+-- Initialize Database ------------------------------------------------------------------------------
+
+USE master;
+GO
+IF DB_ID('Movie_Rental_DB') IS NOT NULL
+BEGIN
+	ALTER DATABASE Movie_Rental_DB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+	DROP DATABASE Movie_Rental_DB;
+END;
+GO
+CREATE DATABASE Movie_Rental_DB;
+GO
+USE Movie_Rental_DB;
+GO
+
+-- Initialize Tables --------------------------------------------------------------------------------
+
+CREATE TABLE [Status] (
+	accountStatusID NUMERIC(1),
+	accountState VARCHAR(15),
+	PRIMARY KEY (accountStatusID)
+);
+
+CREATE TABLE People (
+	peopleID CHAR(11),
+	firstName NVARCHAR(15),
+	lastName VARCHAR(20),
+	accountStatusID NUMERIC(1),
+	PRIMARY KEY (peopleID),
+	FOREIGN KEY (accountStatusID) REFERENCES [Status](accountStatusID)
+);
+
+CREATE TABLE [Role] (
+	roleID NUMERIC(1),
+	[description] VARCHAR(25),
+	seniority VARCHAR(15),
+	permanency VARCHAR(10)
+	PRIMARY KEY (roleID)
+);
+
+CREATE TABLE Employee (
+	employeeID CHAR(11),
+	peopleID CHAR(11),
+	SSN NUMERIC(9),
+	roleID NUMERIC(1),
+	PRIMARY KEY (employeeID),
+	FOREIGN KEY (roleID) REFERENCES [Role](roleID)
+);
+CREATE TABLE Customer (
+	customerID CHAR(11),
+	city CHAR(2),
+	province CHAR(4),
+	email VARCHAR(50),
+	phoneNumber NUMERIC(10),
+	peopleID CHAR(11),
+	PRIMARY KEY (customerID),
+	FOREIGN KEY (peopleID) REFERENCES People(peopleID)
+);
+
+CREATE TABLE Movie (
+	movieID NUMERIC(10),
+	movieName VARCHAR(50),
+	releaseDate DATE,
+	copiesAvailable SMALLINT,
+	copiesTotal SMALLINT,
+	copiesRented SMALLINT,
+	copiesMissing SMALLINT,
+	distributionPrice smallMoney,
+	PRIMARY KEY (movieID)
+);
+CREATE TABLE MovieQueue (
+	queueID TINYINT,
+	queuePosition TINYINT,
+	movieID NUMERIC(10),
+	customerID CHAR(11),
+	PRIMARY KEY (queueID),
+	FOREIGN KEY (movieID) REFERENCES Movie(movieID),
+	FOREIGN KEY (customerID) REFERENCES Customer(customerID)
+);
+
+CREATE TABLE Joins (
+	customerID CHAR(11),
+	queueID TINYINT,
+	FOREIGN KEY (customerID) REFERENCES Customer(customerID),
+	FOREIGN KEY (queueID) REFERENCES MovieQueue(queueID)
+);
+
+CREATE TABLE OrderContext (
+	contextID NUMERIC(1),
+	orderStatus VARCHAR(10),
+	PRIMARY KEY (contextID)
+);
+
+CREATE TABLE Orders (
+	orderID NUMERIC(1),
+	issueDate DATE,
+	dueDate DATE,
+	employeeID CHAR(11),
+	customerID CHAR(11),
+	contextID NUMERIC(1),
+	movieID NUMERIC(10),
+	returnDate DATE,
+	PRIMARY KEY (orderID),
+	FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
+	FOREIGN KEY (customerID) REFERENCES Customer(customerID),
+	FOREIGN KEY (contextID) REFERENCES OrderContext(contextID),
+	FOREIGN KEY (movieID) REFERENCES Movie(movieID)
+);
+
+CREATE TABLE Actor (
+	actorID CHAR(11),
+	gender CHAR(1),
+	DOB DATE,
+	firstName NVARCHAR(25),
+	lastName NVARCHAR(25),
+	actorRating NUMERIC(2,1),
+	PRIMARY KEY (actorID)
+);
+
+CREATE TABLE Ratings (
+	ratingID NUMERIC(10),
+	customerID CHAR(11),
+	PRIMARY KEY (ratingID),
+	FOREIGN KEY (customerID) REFERENCES Customer(customerID)
+);
+
+CREATE TABLE MovieRating (
+	ratingID NUMERIC(10),
+	movieID NUMERIC(10),
+	score NUMERIC(2,1),
+	movieReview VARCHAR(250),
+	PRIMARY KEY (ratingID),
+	FOREIGN KEY (movieID) REFERENCES Movie(movieID),
+	FOREIGN KEY (ratingID) REFERENCES Ratings(ratingID)
+);
+
+CREATE TABLE ActorRating (
+	ratingID NUMERIC(10),
+	actorID CHAR(11),
+	score NUMERIC(2,1),
+	PRIMARY KEY (ratingID),
+	FOREIGN KEY(actorID) REFERENCES Actor(actorID),
+	FOREIGN KEY(ratingID) REFERENCES Ratings(ratingID)
+);
+
+CREATE TABLE Features (
+	movieID NUMERIC(10),
+	actorID CHAR(11),
+	FOREIGN KEY(movieID) REFERENCES Movie(movieID),
+	FOREIGN KEY(actorID) REFERENCES Actor(actorID)
+);
+
+CREATE TABLE Genre (
+	movieID NUMERIC(10),
+	genreString VARCHAR(25),
+	FOREIGN KEY(movieID) REFERENCES Movie(movieID)
+);

@@ -15,7 +15,7 @@ GO
 
 -- Initialize Tables --------------------------------------------------------------------------------
 
-CREATE TABLE [Status] (
+CREATE TABLE AcctStatus (
 	accountStatusID NUMERIC(1),
 	accountState VARCHAR(15),
 	PRIMARY KEY (accountStatusID)
@@ -30,7 +30,7 @@ CREATE TABLE People (
 	FOREIGN KEY (accountStatusID) REFERENCES [Status](accountStatusID)
 );
 
-CREATE TABLE [Role] (
+CREATE TABLE employeeRole (
 	roleID NUMERIC(1),
 	[description] VARCHAR(25),
 	seniority VARCHAR(15),

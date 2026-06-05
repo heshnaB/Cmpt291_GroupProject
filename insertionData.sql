@@ -20,9 +20,17 @@ INSERT INTO Genre VALUES
     (10,'Hard Science Fiction')
 );
 
+-- EmployeeRole
+INSERT INTO EmployeeRole VALUES
+    (8, 'Manager', 'Can: Waive Late Fees, Deactivate Accounts, Checkout', 1)
 
+    (9, 'Part-Time', 'Can: Checkout', 1)
+    
+    (10, 'Full-Time', 'Can: Deactivate Accounts, Checkout', 1)
+    
 --                 = People Inserts = 
-
+INSERT INTO People VALUES
+    ('8', 'Patty', 'Anderson', 1)
 
 
 

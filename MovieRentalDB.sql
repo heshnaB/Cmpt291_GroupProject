@@ -32,8 +32,8 @@ CREATE TABLE People (
 
 CREATE TABLE EmployeeRole (
 	roleID NUMERIC(1),
-	[description] VARCHAR(25),
 	seniority VARCHAR(15),
+	roleDesc VARCHAR(25),
 	permanency VARCHAR(10)
 	PRIMARY KEY (roleID)
 );

@@ -131,7 +131,10 @@ CREATE TABLE MovieRating (
 	movieReview VARCHAR(250),
 	PRIMARY KEY (ratingID),
 	FOREIGN KEY (movieID) REFERENCES Movie(movieID),
-	FOREIGN KEY (ratingID) REFERENCES Ratings(ratingID)
+	FOREIGN KEY (ratingID) REFERENCES Ratings(ratingID),
+
+	CONSTRAINT chkMovScore
+		CHECK (score BETWEEN 1 AND 5)
 );
 
 CREATE TABLE ActorRating (
@@ -140,8 +143,12 @@ CREATE TABLE ActorRating (
 	score NUMERIC(2,1),
 	PRIMARY KEY (ratingID),
 	FOREIGN KEY(actorID) REFERENCES Actor(actorID),
-	FOREIGN KEY(ratingID) REFERENCES Ratings(ratingID)
+	FOREIGN KEY(ratingID) REFERENCES Ratings(ratingID),
+
+	CONSTRAINT chkActScore 
+		CHECK (score BETWEEN 1 AND 5)
 );
+
 
 CREATE TABLE Features (
 	movieID NUMERIC(10),
@@ -155,3 +162,29 @@ CREATE TABLE Genre (
 	genreString VARCHAR(25),
 	FOREIGN KEY(movieID) REFERENCES Movie(movieID)
 );
+
+
+
+
+--                     == Demonstrating Tables ==
+SELECT * FROM [Status]
+SELECT * FROM People
+SELECT * FROM [Role]
+SELECT * FROM Employee
+SELECT * FROM Customer
+
+
+SELECT * FROM Movie
+SELECT * FROM MovieQueue
+SELECT * FROM Joins
+
+SELECT * FROM OrderContext
+SELECT * FROM Orders
+
+SELECT * FROM Actor
+
+SELECT * FROM Ratings
+SELECT * FROM ActorRating
+SELECT * FROM MovieRating
+SELECT * FROM Features
+SELECT * FROM Genre

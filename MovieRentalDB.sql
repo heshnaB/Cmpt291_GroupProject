@@ -27,10 +27,10 @@ CREATE TABLE People (
 	lastName VARCHAR(20),
 	accountStatusID NUMERIC(1),
 	PRIMARY KEY (peopleID),
-	FOREIGN KEY (accountStatusID) REFERENCES [Status](accountStatusID)
+	FOREIGN KEY (accountStatusID) REFERENCES AcctStatus(accountStatusID)
 );
 
-CREATE TABLE employeeRole (
+CREATE TABLE EmployeeRole (
 	roleID NUMERIC(1),
 	[description] VARCHAR(25),
 	seniority VARCHAR(15),
@@ -44,7 +44,7 @@ CREATE TABLE Employee (
 	SSN NUMERIC(9),
 	roleID NUMERIC(1),
 	PRIMARY KEY (employeeID),
-	FOREIGN KEY (roleID) REFERENCES [Role](roleID)
+	FOREIGN KEY (roleID) REFERENCES EmployeeRole(roleID)
 );
 CREATE TABLE Customer (
 	customerID CHAR(11),
@@ -167,9 +167,9 @@ CREATE TABLE Genre (
 
 
 --                     == Demonstrating Tables ==
-SELECT * FROM [Status]
+SELECT * FROM AcctStatus
 SELECT * FROM People
-SELECT * FROM [Role]
+SELECT * FROM EmployeeRole
 SELECT * FROM Employee
 SELECT * FROM Customer
 

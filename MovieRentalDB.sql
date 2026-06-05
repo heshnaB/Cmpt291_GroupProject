@@ -188,3 +188,11 @@ SELECT * FROM ActorRating
 SELECT * FROM MovieRating
 SELECT * FROM Features
 SELECT * FROM Genre
+
+
+
+
+
+--             = Constraint Testing = 
+
+-- Can we add a rating that is >0 , =0, OR <5?

@@ -16,22 +16,22 @@ GO
 -- Initialize Tables --------------------------------------------------------------------------------
 
 CREATE TABLE AcctStatus (
-	accountStatusID NUMERIC(1),
-	accountState VARCHAR(15),
+	accountStatusID NUMERIC(1) NOT NULL,
+	accountState VARCHAR(15) NOT NULL,
 	PRIMARY KEY (accountStatusID)
 );
 
 CREATE TABLE People (
-	peopleID CHAR(11),
-	firstName NVARCHAR(15),
-	lastName VARCHAR(20),
-	accountStatusID NUMERIC(1),
+	peopleID CHAR(11) NOT NULL,
+	firstName NVARCHAR(15) NOT NULL ,
+	lastName VARCHAR(20) NOT NULL,
+	accountStatusID NUMERIC(1) NOT NULL,
 	PRIMARY KEY (peopleID),
 	FOREIGN KEY (accountStatusID) REFERENCES AcctStatus(accountStatusID)
 );
 
 CREATE TABLE EmployeeRole (
-	roleID NUMERIC(1),
+	roleID NUMERIC(1) NOT NULL,
 	seniority VARCHAR(15),
 	roleDesc VARCHAR(25),
 	permanency VARCHAR(10)
@@ -39,66 +39,66 @@ CREATE TABLE EmployeeRole (
 );
 
 CREATE TABLE Employee (
-	employeeID CHAR(11),
-	peopleID CHAR(11),
-	SSN NUMERIC(9),
-	roleID NUMERIC(1),
+	employeeID CHAR(11) NOT NULL,
+	peopleID CHAR(11) NOT NULL,
+	SSN NUMERIC(9) NOT NULL,
+	roleID NUMERIC(1) NOT NULL,
 	PRIMARY KEY (employeeID),
 	FOREIGN KEY (roleID) REFERENCES EmployeeRole(roleID)
 );
 CREATE TABLE Customer (
-	customerID CHAR(11),
+	customerID CHAR(11) NOT NULL,
 	city CHAR(2),
 	province CHAR(4),
 	email VARCHAR(50),
 	phoneNumber NUMERIC(10),
-	peopleID CHAR(11),
+	peopleID CHAR(11) NOT NULL,
 	PRIMARY KEY (customerID),
 	FOREIGN KEY (peopleID) REFERENCES People(peopleID)
 );
 
 CREATE TABLE Movie (
-	movieID NUMERIC(10),
-	movieName VARCHAR(50),
+	movieID NUMERIC(10) NOT NULL,
+	movieName VARCHAR(50) NOT NULL,
 	releaseDate DATE,
 	copiesAvailable SMALLINT,
-	copiesTotal SMALLINT,
+	copiesTotal SMALLINT NOT NULL,
 	copiesRented SMALLINT,
 	copiesMissing SMALLINT,
 	distributionPrice smallMoney,
 	PRIMARY KEY (movieID)
 );
 CREATE TABLE MovieQueue (
-	queueID TINYINT,
-	queuePosition TINYINT,
-	movieID NUMERIC(10),
-	customerID CHAR(11),
+	queueID TINYINT NOT NULL,
+	queuePosition TINYINT NOT NULL,
+	movieID NUMERIC(10) NOT NULL,
+	customerID CHAR(11) NOT NULL,
 	PRIMARY KEY (queueID),
 	FOREIGN KEY (movieID) REFERENCES Movie(movieID),
 	FOREIGN KEY (customerID) REFERENCES Customer(customerID)
 );
 
 CREATE TABLE Joins (
-	customerID CHAR(11),
-	queueID TINYINT,
+	customerID CHAR(11) NOT NULL,
+	queueID TINYINT NOT NULL,
 	FOREIGN KEY (customerID) REFERENCES Customer(customerID),
 	FOREIGN KEY (queueID) REFERENCES MovieQueue(queueID)
 );
 
 CREATE TABLE OrderContext (
-	contextID NUMERIC(1),
-	orderStatus VARCHAR(10),
+	contextID NUMERIC(1) NOT NULL,
+	orderStatus VARCHAR(10) NOT NULL,
 	PRIMARY KEY (contextID)
 );
 
 CREATE TABLE Orders (
-	orderID NUMERIC(1),
-	issueDate DATE,
-	dueDate DATE,
-	employeeID CHAR(11),
-	customerID CHAR(11),
-	contextID NUMERIC(1),
-	movieID NUMERIC(10),
+	orderID NUMERIC(1) NOT NULL,
+	issueDate DATE NOT NULL,
+	dueDate DATE NOT NULL,
+	employeeID CHAR(11) NOT NULL,
+	customerID CHAR(11) NOT NULL,
+	contextID NUMERIC(1) NOT NULL,
+	movieID NUMERIC(10) NOT NULL,
 	returnDate DATE,
 	PRIMARY KEY (orderID),
 	FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
@@ -108,25 +108,25 @@ CREATE TABLE Orders (
 );
 
 CREATE TABLE Actor (
-	actorID CHAR(11),
+	actorID CHAR(11) NOT NULL,
 	gender CHAR(1),
 	DOB DATE,
-	firstName NVARCHAR(25),
-	lastName NVARCHAR(25),
+	firstName NVARCHAR(25) NOT NULL,
+	lastName NVARCHAR(25) NOT NULL,
 	actorRating NUMERIC(2,1),
 	PRIMARY KEY (actorID)
 );
 
 CREATE TABLE Ratings (
-	ratingID NUMERIC(10),
-	customerID CHAR(11),
+	ratingID NUMERIC(10) NOT NULL,
+	customerID CHAR(11) NOT NULL,
 	PRIMARY KEY (ratingID),
 	FOREIGN KEY (customerID) REFERENCES Customer(customerID)
 );
 
 CREATE TABLE MovieRating (
-	ratingID NUMERIC(10),
-	movieID NUMERIC(10),
+	ratingID NUMERIC(10) NOT NULL,
+	movieID NUMERIC(10) NOT NULL,
 	score NUMERIC(2,1),
 	movieReview VARCHAR(250),
 	PRIMARY KEY (ratingID),
@@ -138,8 +138,8 @@ CREATE TABLE MovieRating (
 );
 
 CREATE TABLE ActorRating (
-	ratingID NUMERIC(10),
-	actorID CHAR(11),
+	ratingID NUMERIC(10) NOT NULL,
+	actorID CHAR(11) NOT NULL,
 	score NUMERIC(2,1),
 	PRIMARY KEY (ratingID),
 	FOREIGN KEY(actorID) REFERENCES Actor(actorID),
@@ -151,15 +151,15 @@ CREATE TABLE ActorRating (
 
 
 CREATE TABLE Features (
-	movieID NUMERIC(10),
-	actorID CHAR(11),
+	movieID NUMERIC(10) NOT NULL,
+	actorID CHAR(11) NOT NULL,
 	FOREIGN KEY(movieID) REFERENCES Movie(movieID),
 	FOREIGN KEY(actorID) REFERENCES Actor(actorID)
 );
 
 CREATE TABLE Genre (
-	movieID NUMERIC(10),
-	genreString VARCHAR(25),
+	movieID NUMERIC(10) NOT NULL,
+	genreString VARCHAR(25) NOT NULL,
 	FOREIGN KEY(movieID) REFERENCES Movie(movieID)
 );
 

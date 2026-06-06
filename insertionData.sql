@@ -15,6 +15,9 @@ SELECT * FROM AcctStatus
 -- Genre:
 
 INSERT INTO Genre VALUES
+    (4, 'Thriller')
+    (5, 'Romance')
+    (6, 'Comedy')
     (8,'Family')
     (9,'Horror')
     (10,'Hard Science Fiction')
@@ -22,6 +25,12 @@ INSERT INTO Genre VALUES
 
 -- EmployeeRole
 INSERT INTO EmployeeRole VALUES
+    (4, 'Seasonal', 'Can: Checkout', 1)
+
+    (5, 'Assistant Manager', 'Can: Checkout, Handles Overdue/Missing Cases, Deactivate Customer Accounts', 1)
+
+    (6, 'IT Support & Operations', 'Can: Provide day-to-day troubleshooting for employees, Upgrades/Installs/Moniters the server and internal systems', 1)
+
     (8, 'Manager', 'Can: Waive Late Fees, Deactivate Accounts, Checkout', 1)
 
     (9, 'Part-Time', 'Can: Checkout', 1)
@@ -29,11 +38,69 @@ INSERT INTO EmployeeRole VALUES
     (10, 'Full-Time', 'Can: Deactivate Accounts, Checkout', 1)
     
 --                 = People Inserts = 
+
 INSERT INTO People VALUES
+    ('4', 'Jade', 'Bellevue', 1)
+    ('14', 'Yasmin', 'Bellevue', 1)
+    ('5', 'Richard', 'Feynman', 2)
+    ('15', 'Albert', 'Einstein', 2)
+    ('6', 'Genevieve', 'Randolph', 1)
+    ('16', 'Sasha', 'Silvermist', 1)
     ('8', 'Patty', 'Anderson', 1)
 
+--                 = Employee Inserts = 
+/*              
+Attributes:
+    employeeID, peopleID
+    SSN, roleID
+*/
+INSERT INTO Employee VALUES
+    ('4', '4', 100000000, 9)
+    ('5', '14', 100000001, 10)
+    ('6', '16', 100000007, 8);
 
+--                 = Customer Inserts = 
+/*
+Attributes:
+    customerID, city,
+    province, email
+    phoneNumber, peopleID
+*/
+INSERT INTO Customer VALUES
+    ('4', 'Red Deer', 'AB', 'feynmanR@yahoo.ca', 7804564321, '5')
+    ('5', 'Edmonton', 'AB', 'alberteinstein@gmail.com', 5879874321, '15')
+    ('6', 'Calgary', 'AB', 'pgenevieve@gmail.ca', 7801231234, '6');
 
+/*                = Ratings Inserts =
+Attributes:
+    ratingID, customerID
+*/
+INSERT INTO Ratings VALUES
+    (4, '4')
+    (5, '6')
+    (6, '5');
+
+/*                = ActorRating Inserts =
+Attributes:
+    ratingID, actorID,
+    score
+*/
+
+INSERT INTO ActorRating VALUES
+    (4, '4', 8.25)
+    (5, '5', 9.50)
+    (6, '6', 9.99);
+
+/*                = MovieRating Inserts =
+Attributes:
+    ratingID, movieID,
+    score, movieReview
+*/
+
+INSERT INTO MovieRating VALUES
+    (4, '4', 7.35, 'Awesome Movie!')
+    (5, '6', 9.00, 'Classic!')
+    (6, '5', 10.00, 'Made me cry!');
 
 /*                = Movie Inserts =
 Attributes:
@@ -47,6 +114,12 @@ CONSTRAINTS TO TEST:
 
 
 INSERT INTO Movie VALUES
+    (4, 'Crazy Rich Asians', '2018-08-07', 10, 15, 5, 0, 5.75)
+
+    (5, 'Ballerina', '2025', '2025-06-06', 2, 10, 7, 1, 6.66)
+
+    (6, 'The Hangover', '2009-04-30', 0, 20, 18, 2, 4.50)
+
     (8, 'Ice Age', '2002-03-15', 4, 10, 1, 0, 5.55);
 
 INSERT INTO Movie VALUES
@@ -64,6 +137,9 @@ Attributes:
 */
 
 INSERT INTO Actor VALUES
+    ('4', 'F', '1988-04-30', 'Ana', 'de Armas', )
+    ('5', 'F', '1982-03-22', 'Constance', 'Wu', )
+    ('6', 'M', '1969-07-13', 'Ken', 'Jeong', )
     ('8','F', '1971-07-20', 'Sandra', 'Oh', );
 
 INSERT INTO Actor VALUES
@@ -71,3 +147,61 @@ INSERT INTO Actor VALUES
 
 INSERT INTO Actor VALUES
     ('8','F', '1983-12-21', 'Steven', 'Yeun', );
+
+/*             = Features Inserts =
+Attributes:
+    movieID, actorID
+*/
+
+INSERT INTO Features VALUES
+(4, 5)
+(4, 6)
+(5, 4)
+(6, 6);
+
+/*          = Order & OrderContext Inserts =            */
+
+/*
+Orders Attributes:
+    orderID, issueDate,
+    dueDate, employeeID,
+    customerID, contextID,
+    movieID, returnDate
+*/
+
+INSERT INTO Orders VALUES
+    (4, 2026-02-20, DATEADD(week, 2, issueDate), , , 0, 4,)
+    (5, 2026-02-22, DATEADD(week, 2, issueDate), , , 3, 5,)
+    (6, 2026-02-22, DATEADD(week, 2, issueDate), , , 2, 6,);
+
+/*
+OrderContext Attributes:
+    contextID, orderStatus
+*/
+
+INSERT INTO OrderContext VALUES
+    (0, 'Pending')
+    (1, 'Completed')
+    (2, 'Overdue')
+    (3, 'Missing');
+
+/*             = Joins Inserts =
+Attributes:
+    customerID, queueID
+*/
+
+INSERT INTO Joins VALUES
+    ('4', 4)
+    ('5', 5)
+    ('6', 6);
+
+/*             = MovieQueue Inserts =
+Attributes:
+    queueID, queuePostion,
+    movieID, customerID
+*/
+
+INSERT INTO MovieQueue VALUES
+    (4, 5, 5, '4')
+    (5, 1, 4, '5')
+    (6, 0, 6, '6');

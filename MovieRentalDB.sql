@@ -32,15 +32,15 @@ CREATE TABLE People (
 
 
 CREATE TABLE Permanency (
-	permanencyID numeric(1) PRIMARY KEY,
+	permanencyID numeric(1) PRIMARY KEY NOT NULL,
 	permancyDesc VARCHAR(40)
 );
 
 CREATE TABLE EmployeeRole (
-	roleID NUMERIC(1) PRIMARY KEY,
-	jobTitle VARCHAR(15),
+	roleID NUMERIC(1) PRIMARY KEY NOT NULL,
+	jobTitle VARCHAR(15) NOT NULL,
 	roleDesc VARCHAR(25),
-	permanencyID numeric(1),
+	permanencyID numeric(1) NOT NULL,
 
 	FOREIGN KEY (permanencyID) REFERENCES Permanency(permanencyID)
 );

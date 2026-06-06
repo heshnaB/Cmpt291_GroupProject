@@ -10,22 +10,19 @@ INSERT INTO AcctStatus VALUES (1, 'Active')
 INSERT INTO AcctStatus VALUES (2, 'Inactive')
 INSERT INTO AcctStatus VALUES (3, 'Suspended')
 
-SELECT * FROM AcctStatus
-
 -- Genre:
 
 INSERT INTO Genre VALUES
-    (1, 'Action')
-    (2, 'Drama')
-    (3, 'Historical')
-    (4, 'Thriller')
-    (5, 'Romance')
-    (6, 'Comedy')
-    (8,'Family')
-    (9,'Horror')
+    (1, 'Action'),
+    (2, 'Drama'),
+    (3, 'Historical'),
+    (4, 'Thriller'),
+    (5, 'Romance'),
+    (6, 'Comedy'),
+    (8,'Family'),
+    (9,'Horror'),
     (10,'Hard Science Fiction')
 );
-
 
 INSERT INTO Permanency VALUES   
     (0, 'Full-Time')
@@ -37,79 +34,57 @@ INSERT INTO Permanency VALUES
 INSERT INTO EmployeeRole VALUES
 -- roleID, jobTitle, roledesc, permanencyID
     (0, 'Sales-Associate', 'Can: Checkout', 1)
-
     (1, 'Assistant Manager', 'Can: Checkout, Handles Overdue/Missing Cases, Deactivate Customer Accounts', 1)
-
     (2, 'IT Support & Operations', 'Can: Provide day-to-day troubleshooting for employees, Upgrades/Installs/Moniters the server and internal systems', 1)
-
     (3, 'Manager', 'Can: Waive Late Fees, Deactivate Accounts, Checkout', 1)
 );
     
 
 
 --                 = People Inserts = 
-
 INSERT INTO People VALUES
-    ('1', 'Oliver', 'Cromwell')
-    ('2', 'Hari', 'Seldon')
-    ('3', 'Mary', 'Beard')
-    ('4', 'Jade', 'Bellevue', 1)
-    ('14', 'Yasmin', 'Bellevue', 1)
-    ('5', 'Richard', 'Feynman', 2)
-    ('15', 'Albert', 'Einstein', 2)
-    ('6', 'Genevieve', 'Randolph', 1)
-    ('16', 'Sasha', 'Silvermist', 1)
+    ('1', 'Oliver', 'Cromwell'),
+    ('2', 'Hari', 'Seldon'),
+    ('3', 'Mary', 'Beard'),
+    ('4', 'Jade', 'Bellevue', 1),
+    ('14', 'Yasmin', 'Bellevue', 1),
+    ('5', 'Richard', 'Feynman', 2),
+    ('15', 'Albert', 'Einstein', 2),
+    ('6', 'Genevieve', 'Randolph', 1),
+    ('16', 'Sasha', 'Silvermist', 1),
     ('8', 'Patty', 'Anderson', 1)
+;
 
 --                 = Employee Inserts = 
-/*              
-Attributes:
-    employeeID, peopleID
-    SSN, roleID
-*/
 INSERT INTO Employee VALUES
-    ('E-000000004', 'P-000000004', 100000000, 0)
-    ('E-000000005', 'P-000000014', 100000001, 1)
-    ('E-000000006', 'P-00000007', 100000007, 2);
+    ('E-000000004', 'P-000000004', 100000000, 0),
+    ('E-000000005', 'P-000000014', 100000001, 1),
+    ('E-000000006', 'P-00000007', 100000007, 2)
+    
+;
 
 --                 = Customer Inserts = 
-/*
-Attributes:
-    customerID, city,
-    province, email
-    phoneNumber, peopleID
-*/
-INSERT INTO Customer VALUES
-    ('4', 'Red Deer', 'AB', 'feynmanR@yahoo.ca', 7804564321, '5')
-    ('5', 'Edmonton', 'AB', 'alberteinstein@gmail.com', 5879874321, '15')
-    ('6', 'Calgary', 'AB', 'pgenevieve@gmail.ca', 7801231234, '6');
 
-/*                = Ratings Inserts =
-Attributes:
-    ratingID, customerID
-*/
+INSERT INTO Customer VALUES
+    ('4', 'Red Deer', 'AB', 'feynmanR@yahoo.ca', 7804564321, '5'),
+    ('5', 'Edmonton', 'AB', 'alberteinstein@gmail.com', 5879874321, '15'),
+    ('6', 'Calgary', 'AB', 'pgenevieve@gmail.ca', 7801231234, '6')
+
+;
+
+/*                = Ratings Inserts =                  */
 INSERT INTO Ratings VALUES
-    (4, '4')
-    (5, '6')
+    (4, '4'),
+    (5, '6'),
     (6, '5');
 
-/*                = ActorRating Inserts =
-Attributes:
-    ratingID, actorID,
-    score
-*/
-
+/*                = ActorRating Inserts =                  */
 INSERT INTO ActorRating VALUES
     (4, '4', 8.25)
     (5, '5', 9.50)
     (6, '6', 9.99);
 
-/*                = MovieRating Inserts =
-Attributes:
-    ratingID, movieID,
-    score, movieReview
-*/
-
+/*                = MovieRating Inserts =              */
 INSERT INTO MovieRating VALUES
     (4, '4', 7.35, 'Awesome Movie!')
     (5, '6', 9.00, 'Classic!')

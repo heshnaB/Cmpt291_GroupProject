@@ -23,20 +23,28 @@ INSERT INTO Genre VALUES
     (10,'Hard Science Fiction')
 );
 
+
+
+INSERT INTO Permanency VALUES   
+    (0, 'Full-Time')
+    (1, 'Part-Time')
+    (2, 'Seasonal/Temp')
+);
+
 -- EmployeeRole
 INSERT INTO EmployeeRole VALUES
-    (0, 'Seasonal', 'Can: Checkout', 1)
+-- roleID, jobTitle, roledesc, permanencyID
+    (0, 'Sales-Associate', 'Can: Checkout', 1)
 
     (1, 'Assistant Manager', 'Can: Checkout, Handles Overdue/Missing Cases, Deactivate Customer Accounts', 1)
 
     (2, 'IT Support & Operations', 'Can: Provide day-to-day troubleshooting for employees, Upgrades/Installs/Moniters the server and internal systems', 1)
 
     (3, 'Manager', 'Can: Waive Late Fees, Deactivate Accounts, Checkout', 1)
+);
+    
 
-    (4, 'Part-Time', 'Can: Checkout', 1)
-    
-    (5, 'Full-Time', 'Can: Deactivate Accounts, Checkout', 1)
-    
+
 --                 = People Inserts = 
 
 INSERT INTO People VALUES

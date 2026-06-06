@@ -24,7 +24,6 @@ INSERT INTO Genre VALUES
 );
 
 
-
 INSERT INTO Permanency VALUES   
     (0, 'Full-Time')
     (1, 'Part-Time')
@@ -121,21 +120,15 @@ CONSTRAINTS TO TEST:
 */
 
 
-INSERT INTO Movie VALUES
-    (4, 'Crazy Rich Asians', '2018-08-07', 10, 15, 5, 0, 5.75)
 
-    (5, 'Ballerina', '2025', '2025-06-06', 2, 10, 7, 1, 6.66)
-
-    (6, 'The Hangover', '2009-04-30', 0, 20, 18, 2, 4.50)
-
-    (8, 'Ice Age', '2002-03-15', 4, 10, 1, 0, 5.55);
-
-INSERT INTO Movie VALUES
-    (9, 'Scary Movie', '2000-07-07', 2, 5, 2, 1, 1.25);
-
-INSERT INTO Movie VALUES
-    (9, 'Project Hail Mary', '2026-03-20', 2, 5, 2, 1, 1.25);
-
+INSERT INTO Movie VALUES -- tested and working
+    (4, 'Crazy Rich Asians', '2018-08-07', 10, 15, 5, 0, 5.75),
+    (5, 'Ballerina', '2025-06-06', 2, 10, 7, 1, 6.66),
+	(6, 'The Hangover', '2009-04-30', 0, 20, 18, 2, 4.50),
+	(7, 'Scary Movie', '2000-07-07', 2, 5, 2, 1, 1.25),
+	(8, 'Ice Age', '2002-03-15', 4, 10, 1, 0, 5.55),
+	(9, 'Project Hail Mary', '2026-03-20', 2, 5, 2, 1, 1.25)
+	;
 
 /*             = Actor Inserts =
 Attributes:
@@ -145,16 +138,15 @@ Attributes:
 */
 
 INSERT INTO Actor VALUES
-    ('4', 'F', '1988-04-30', 'Ana', 'de Armas', )
-    ('5', 'F', '1982-03-22', 'Constance', 'Wu', )
-    ('6', 'M', '1969-07-13', 'Ken', 'Jeong', )
-    ('8','F', '1971-07-20', 'Sandra', 'Oh', );
+    ('4', 'F', '1988-04-30', 'Ana', 'de Armas'),
+    ('5', 'F', '1982-03-22', 'Constance', 'Wu'),
+    ('6', 'M', '1969-07-13', 'Ken', 'Jeong),
+    ('8','F', '1971-07-20', 'Sandra', 'Oh'),
+    ('8','F', '1954-03-04', 'Catherine', 'O''Hara'),
+    ('8','F', '1983-12-21', 'Steven', 'Yeun')
+    ;
 
-INSERT INTO Actor VALUES
-    ('8','F', '1954-03-04', 'Catherine', 'O''Hara', );
 
-INSERT INTO Actor VALUES
-    ('8','F', '1983-12-21', 'Steven', 'Yeun', );
 
 /*             = Features Inserts =
 Attributes:

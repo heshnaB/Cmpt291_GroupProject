@@ -121,7 +121,6 @@ CREATE TABLE Actor (
 	DOB DATE,
 	firstName NVARCHAR(25),
 	lastName NVARCHAR(25),
-	actorRating NUMERIC(2,1),
 	PRIMARY KEY (actorID)
 );
 

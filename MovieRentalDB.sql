@@ -30,13 +30,21 @@ CREATE TABLE People (
 	FOREIGN KEY (accountStatusID) REFERENCES AcctStatus(accountStatusID)
 );
 
-CREATE TABLE EmployeeRole (
-	roleID NUMERIC(1) NOT NULL,
-	seniority VARCHAR(15),
-	roleDesc VARCHAR(25),
-	permanency VARCHAR(10)
-	PRIMARY KEY (roleID)
+
+CREATE TABLE Permanency (
+	permanencyID numeric(1) PRIMARY KEY,
+	permancyDesc VARCHAR(40)
 );
+
+CREATE TABLE EmployeeRole (
+	roleID NUMERIC(1) PRIMARY KEY,
+	jobTitle VARCHAR(15),
+	roleDesc VARCHAR(25),
+	permanencyID numeric(1),
+
+	FOREIGN KEY (permanencyID) REFERENCES Permanency(permanencyID)
+);
+
 
 CREATE TABLE Employee (
 	employeeID CHAR(11) NOT NULL,

@@ -26,20 +26,28 @@ INSERT INTO Genre VALUES
     (10,'Hard Science Fiction')
 );
 
+
+
+INSERT INTO Permanency VALUES   
+    (0, 'Full-Time')
+    (1, 'Part-Time')
+    (2, 'Seasonal/Temp')
+);
+
 -- EmployeeRole
 INSERT INTO EmployeeRole VALUES
-    (4, 'Seasonal', 'Can: Checkout', 1)
+-- roleID, jobTitle, roledesc, permanencyID
+    (0, 'Sales-Associate', 'Can: Checkout', 1)
 
-    (5, 'Assistant Manager', 'Can: Checkout, Handles Overdue/Missing Cases, Deactivate Customer Accounts', 1)
+    (1, 'Assistant Manager', 'Can: Checkout, Handles Overdue/Missing Cases, Deactivate Customer Accounts', 1)
 
-    (6, 'IT Support & Operations', 'Can: Provide day-to-day troubleshooting for employees, Upgrades/Installs/Moniters the server and internal systems', 1)
+    (2, 'IT Support & Operations', 'Can: Provide day-to-day troubleshooting for employees, Upgrades/Installs/Moniters the server and internal systems', 1)
 
-    (8, 'Manager', 'Can: Waive Late Fees, Deactivate Accounts, Checkout', 1)
-
-    (9, 'Part-Time', 'Can: Checkout', 1)
+    (3, 'Manager', 'Can: Waive Late Fees, Deactivate Accounts, Checkout', 1)
+);
     
-    (10, 'Full-Time', 'Can: Deactivate Accounts, Checkout', 1)
-    
+
+
 --                 = People Inserts = 
 
 INSERT INTO People VALUES
@@ -61,9 +69,9 @@ Attributes:
     SSN, roleID
 */
 INSERT INTO Employee VALUES
-    ('4', '4', 100000000, 9)
-    ('5', '14', 100000001, 10)
-    ('6', '16', 100000007, 8);
+    ('E-000000004', 'P-000000004', 100000000, 0)
+    ('E-000000005', 'P-000000014', 100000001, 1)
+    ('E-000000006', 'P-00000007', 100000007, 2);
 
 --                 = Customer Inserts = 
 /*

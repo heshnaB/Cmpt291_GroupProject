@@ -119,9 +119,8 @@ CREATE TABLE Actor (
 	actorID CHAR(11) NOT NULL,
 	gender CHAR(1),
 	DOB DATE,
-	firstName NVARCHAR(25) NOT NULL,
-	lastName NVARCHAR(25) NOT NULL,
-	actorRating NUMERIC(2,1),
+	firstName NVARCHAR(25),
+	lastName NVARCHAR(25),
 	PRIMARY KEY (actorID)
 );
 

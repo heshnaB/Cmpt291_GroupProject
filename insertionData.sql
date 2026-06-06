@@ -15,6 +15,9 @@ SELECT * FROM AcctStatus
 -- Genre:
 
 INSERT INTO Genre VALUES
+    (1, 'Action')
+    (2, 'Drama')
+    (3, 'Historical')
     (4, 'Thriller')
     (5, 'Romance')
     (6, 'Comedy')
@@ -40,6 +43,9 @@ INSERT INTO EmployeeRole VALUES
 --                 = People Inserts = 
 
 INSERT INTO People VALUES
+    ('1', 'Oliver', 'Cromwell')
+    ('2', 'Hari', 'Seldon')
+    ('3', 'Mary', 'Beard')
     ('4', 'Jade', 'Bellevue', 1)
     ('14', 'Yasmin', 'Bellevue', 1)
     ('5', 'Richard', 'Feynman', 2)

@@ -38,8 +38,8 @@ CREATE TABLE Permanency (
 
 CREATE TABLE EmployeeRole (
 	roleID NUMERIC(1) PRIMARY KEY NOT NULL,
-	jobTitle VARCHAR(15) NOT NULL,
-	roleDesc VARCHAR(25),
+	jobTitle VARCHAR(35) NOT NULL,
+	roleDesc VARCHAR(50),
 	permanencyID numeric(1) NOT NULL,
 
 	FOREIGN KEY (permanencyID) REFERENCES Permanency(permanencyID)
@@ -56,7 +56,7 @@ CREATE TABLE Employee (
 );
 CREATE TABLE Customer (
 	customerID CHAR(11) NOT NULL,
-	city CHAR(2),
+	city CHAR(20),
 	province CHAR(4),
 	email VARCHAR(50),
 	phoneNumber NUMERIC(10),
@@ -107,7 +107,7 @@ CREATE TABLE Orders (
 	customerID CHAR(11) NOT NULL,
 	contextID NUMERIC(1) NOT NULL,
 	movieID NUMERIC(10) NOT NULL,
-	returnDate DATE,
+	returnDate DATE NULL,
 	PRIMARY KEY (orderID),
 	FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
 	FOREIGN KEY (customerID) REFERENCES Customer(customerID),

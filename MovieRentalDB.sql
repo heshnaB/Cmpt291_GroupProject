@@ -52,7 +52,7 @@ CREATE TABLE Permanency (
 CREATE TABLE EmployeeRole (
 	roleID NUMERIC(1) PRIMARY KEY,
 	jobTitle VARCHAR(35),
-	roleDesc VARCHAR(90),
+	roleDesc VARCHAR(125),
 	permanencyID numeric(1),
 
 	FOREIGN KEY (permanencyID) REFERENCES Permanency(permanencyID)
@@ -197,53 +197,3 @@ CREATE TABLE Orders (
 	FOREIGN KEY (contextID) REFERENCES OrderContext(contextID),
 	FOREIGN KEY (movieID) REFERENCES Movie(movieID)
 );
-
-
-
---                     == Demonstrating Tables ==
-INSERT INTO AcctStatus VALUES 
-    (0, 'Deactivated'), --Allows for IF Acctstatus to yield F if deactivated, T if Non-deactivated
-    (1, 'Active'),
-    (2, 'Inactive'),
-    (3, 'Suspended')
-;
-
-
-INSERT INTO Permanency VALUES   
-    (0, 'Full-Time'),
-    (1, 'Part-Time'),
-    (2, 'Seasonal/Temp')
-;
-
-
-
---                     == Demonstrating Tables ==
-SELECT * FROM AcctStatus
-SELECT * FROM People
-SELECT * FROM EmployeeRole
-SELECT * FROM Employee
-SELECT * FROM Customer
-
-
-SELECT * FROM Movie
-SELECT * FROM MovieQueue
-SELECT * FROM Joins
-
-SELECT * FROM OrderContext
-SELECT * FROM Orders
-
-SELECT * FROM Actor
-
-SELECT * FROM Ratings
-SELECT * FROM ActorRating
-SELECT * FROM MovieRating
-SELECT * FROM Features
-SELECT * FROM Genre
-
-
-
-
-
---             = Constraint Testing = 
-
--- Can we add a rating that is >0 , =0, OR <5?

@@ -32,7 +32,7 @@ CREATE TABLE People (
 
 CREATE TABLE Customer (
 	customerID CHAR(11) NOT NULL PRIMARY KEY,
-	city CHAR(2),
+	city CHAR(32),
 	province CHAR(4),
 	email VARCHAR(50),
 	phoneNumber NUMERIC(10),

@@ -30,7 +30,6 @@ INSERT INTO EmployeeRole VALUES
 	SELECT * FROM Permanency
 
 
-
 INSERT INTO People VALUES
 -- peopleID, Fname, Lname, AcctStatus
 
@@ -61,7 +60,11 @@ INSERT INTO People VALUES
 	('P-000000013', 'Sasha', 'Silvermist', 0),
     ('P-000000014', 'Patty', 'Anderson', 0)
 
+SELECT * FROM People
 
+
+
+--				= Employees & Customers Insertion =
 
 INSERT INTO Employee VALUES
 -- employeeID, peopleID, SSN, roleID
@@ -71,3 +74,15 @@ INSERT INTO Employee VALUES
     ('E-000000004', 'P-00000004', 913018453, 2)
 
 ;
+SELECT * FROM Employee
+
+
+INSERT INTO Customer VALUES
+    ('C-000000005', 'Red Deer', 'C-AB', 'feynmanR@yahoo.ca', 7804564321, 'P-000000005'),
+    ('C-000000006', 'Edmonton', 'C-AB', 'alberteinstein@gmail.com', 5879874321, 'P-000000006'),
+    ('C-000000007', 'Calgary', 'C-AB', 'heehee@gmail.ca', 7801231234, 'P-000000007'),
+	('C-000000008', 'Edmonton', 'C-AB', 'coolboyskates@gmail.com', 5876687499, 'P-000000008')
+;
+
+SELECT * FROM Customer
+

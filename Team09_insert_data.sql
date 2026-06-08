@@ -164,7 +164,8 @@ INSERT INTO Movie VALUES
 	(9, 'Project Hail Mary', '2026-03-20', 2, 5, 2, 1, 1.25),
 
 	(21, 'The Lord of the Rings: The Fellowship of the Ring', '2001-12-19', 3, 10, 7, 0, 4.00),   
-	(22, 'The Lord of the Rings: The Two Towers', '2002-12-18', 1, 10, 8, 1, 4.00)
+	(22, 'The Lord of the Rings: The Two Towers', '2002-12-18', 1, 10, 8, 1, 4.00),
+	(23, 'The Lord of the Rings: The Return of the King', '2003-12-17', 4, 10, 4, 2, 4.00)
 ;
 
 
@@ -173,7 +174,14 @@ INSERT INTO Actor VALUES
     (1, 'M', '1968-12-18', 'Casper', 'Van Dien'),
     (2, 'M', '1963-12-18', 'Brad', 'Pitt'),
     (3, 'F', '1949-10-08', 'Sigourney', 'Weaver'),
-    (30, 'F', '1971-02-17', 'Denise', 'Richards'),
+    (4, 'F', '1988-04-30', 'Ana', 'de Armas'),
+    (5, 'F', '1982-03-22', 'Constance', 'Wu'),
+    (6, 'M', '1969-07-13', 'Ken', 'Jeong'),
+    (8,'F', '1971-07-20', 'Sandra', 'Oh'),
+    (9,'F', '1954-03-04', 'Catherine', 'O''Hara'),
+    (10,'F', '1983-12-21', 'Steven', 'Yeun'),
+
+	(30, 'F', '1971-02-17', 'Denise', 'Richards'),
     (31, 'M', '1950-02-12', 'Michael', 'Ironside'),
     (32, 'F', '1976-07-15', 'Diane', 'Kruger'),
     (33, 'M', '1956-10-04', 'Christoph', 'Waltz'),
@@ -181,13 +189,7 @@ INSERT INTO Actor VALUES
     (35, 'M', '1931-09-12', 'Ian', 'Holm'),
     (36, 'M', '1981-01-28', 'Elijah', 'Wood'),
     (37, 'F', '1977-07-01', 'Liv', 'Tyler'),
-    (38, 'M', '1960-04-04', 'Hugo', 'Weaving'),
-    (4, 'F', '1988-04-30', 'Ana', 'de Armas'),
-    (5, 'F', '1982-03-22', 'Constance', 'Wu'),
-    (6, 'M', '1969-07-13', 'Ken', 'Jeong'),
-    (8,'F', '1971-07-20', 'Sandra', 'Oh'),
-    (9,'F', '1954-03-04', 'Catherine', 'O''Hara'),
-    (10,'F', '1983-12-21', 'Steven', 'Yeun')
+    (38, 'M', '1960-04-04', 'Hugo', 'Weaving')
 ;
 	
 

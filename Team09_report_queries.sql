@@ -94,3 +94,13 @@
 		GROUP BY movieName
 		ORDER BY TimesRented DESC
 
+
+-- 5: Filtering Query
+	-- Find all the movies with the Epic Fantasy Genre
+		SELECT movieName
+		FROM Movie
+		WHERE movieID IN (
+			SELECT movieID
+			FROM Genre
+			WHERE genreString = 'Epic Fantasy'
+		);

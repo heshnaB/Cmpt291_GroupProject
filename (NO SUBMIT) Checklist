@@ -10,6 +10,14 @@ J. What to submit for Deliverable 2
 ● Team##_report_queries.sql
 
 
-# Look Below!
-● Screenshots showing that the table script, insert script, verification queries, and report queries run in SSMS
+# Remaining:
+● Screenshots showing that the table script, insert script, verification queries, and report queries run in SSMS: Added to our google doc
 ● Design Change Log, if your implementation differs from Deliverable 1
+
+
+
+# !! NOTICE !!     DATA YET TO BE INSERTED
+
+We must add a genre -> movie categorization rows. nowhere do we store what movie is what genre
+Not all customers have placed an order
+We MUST complete the constraint demonstration in report queries

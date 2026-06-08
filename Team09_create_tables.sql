@@ -98,19 +98,19 @@ CREATE TABLE Genre (
 
 CREATE TABLE MovieQueue (
 	queueID TINYINT NOT NULL PRIMARY KEY,
-	movieID NUMERIC(10) NOT NULL,
+	FK_movieID NUMERIC(10) NOT NULL,
 	
-	FOREIGN KEY (movieID) REFERENCES Movie(movieID)
+	FOREIGN KEY (FK_movieID) REFERENCES Movie(movieID)
 );
 
 
 -- Customer, Movie Dependency Tables\
 CREATE TABLE JoinQueue(
-	customerID CHAR(11) NOT NULL,
+	FK_customerID CHAR(11) NOT NULL,
 	queueID TINYINT NOT NULL,
 	queuePosition TINYINT NOT NULL
 	
-	FOREIGN KEY (customerID) REFERENCES Customer(customerID),
+	FOREIGN KEY (FK_customerID) REFERENCES Customer(customerID),
 	FOREIGN KEY (queueID) REFERENCES MovieQueue(queueID)
 );
 

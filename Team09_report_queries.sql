@@ -56,3 +56,22 @@
 			GROUP BY Orders.employeeID
 		) as subq
 );
+
+
+
+-- 3: Internal Systems Overview
+
+	-- A. Count All Deactivated Accounts
+	SELECT COUNT(*) as DeactivatedAccounts
+	FROM People
+	WHERE accountStatusID = 0
+
+
+-- 4: Information For Decision-Making
+
+	-- A. Most popular movie rented
+		SELECT movieName, COUNT(*) as TimesRented
+		FROM Movie, Orders
+		WHERE Movie.movieID = Orders.movieID
+		GROUP BY movieName
+		ORDER BY TimesRented DESC

@@ -95,8 +95,8 @@
 		ORDER BY TimesRented DESC
 
 
--- 5: Filtering Query
-	-- Find all the movies with the Epic Fantasy Genre
+-- 5: Filtering Query: Understanding Our Inventory
+		-- A. Allows us a reproducable way to find all movies associated with Genre X
 		SELECT movieName
 		FROM Movie
 		WHERE movieID IN (

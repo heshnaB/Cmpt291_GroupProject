@@ -33,7 +33,7 @@
 	JOIN Orders O ON E.employeeID = O.employeeID
 	JOIN Customer C ON O.customerID = C.customerID
 
-	
+
 
 -- 2: Employee Productivity Analysis
 

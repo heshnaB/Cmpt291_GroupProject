@@ -317,7 +317,8 @@ INSERT INTO MovieQueue VALUES
     (6, 6),
 
 	(21, 21), -- LOTR Fellow
-    (22, 22) --LOTR Tower
+    (22, 22), --LOTR Tower
+    (23, 23)
 ;
 
 

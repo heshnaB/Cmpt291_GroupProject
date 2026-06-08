@@ -38,8 +38,8 @@ CREATE TABLE Permanency (
 
 CREATE TABLE EmployeeRole (
 	roleID NUMERIC(1) PRIMARY KEY NOT NULL,
-	jobTitle VARCHAR(35) NOT NULL,
-	roleDesc VARCHAR(50),
+	jobTitle VARCHAR(150) NOT NULL,
+	roleDesc VARCHAR(250),
 	permanencyID numeric(1) NOT NULL,
 
 	FOREIGN KEY (permanencyID) REFERENCES Permanency(permanencyID)
@@ -169,8 +169,6 @@ CREATE TABLE Genre (
 	genreString VARCHAR(25) NOT NULL,
 	FOREIGN KEY(movieID) REFERENCES Movie(movieID)
 );
-
-
 
 
 --                     == Demonstrating Tables ==

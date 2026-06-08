@@ -1,0 +1,15 @@
+J. What to submit for Deliverable 2
+
+
+# We have the google doc: we should include that too even if not listed
+
+# We have:
+● Team##_create_tables.sql
+● Team##_insert_data.sql
+● Team##_test_queries.sql
+● Team##_report_queries.sql
+
+
+# Look Below!
+● Screenshots showing that the table script, insert script, verification queries, and report queries run in SSMS
+● Design Change Log, if your implementation differs from Deliverable 1

@@ -1,0 +1,319 @@
+--									                                      == Inserting Values ==
+
+-- TEAM 09 ; Alex, Esperanza, Heshna, Ryan
+
+
+-- Dependencies for: Customer, Employee
+INSERT INTO AcctStatus VALUES 
+    (0, 'Deactivated'), --Allows for IF Acctstatus to yield F if deactivated, T if Non-deactivated
+    (1, 'Active'),
+    (2, 'Inactive'),
+    (3, 'Suspended')
+;
+INSERT INTO Permanency VALUES   
+    (0, 'Full-Time'),
+    (1, 'Part-Time'),
+    (2, 'Seasonal/Temp')
+;
+
+INSERT INTO EmployeeRole VALUES
+-- roleID, jobTitle, roledesc, permanencyID
+    (0, 'Sales-Associate', 'Checkout', 1),
+    (1, 'Assistant Manager', 'Checkout, Handles Overdue/Missing Cases, Deactivate Customer Accounts', 1),
+    (2, 'IT Support & Operations', 'Troubleshooting, Upgrades, Installs & Monitors server & other internal systems', 1),
+    (3, 'Manager', 'Checkout, Waives Late Fees, Deactivates Accounts', 1)
+;
+
+-- Verifying Above Works
+	SELECT * FROM AcctStatus
+	SELECT * FROM EmployeeRole
+	SELECT * FROM Permanency
+
+
+
+INSERT INTO People VALUES
+-- peopleID, Fname, Lname, AcctStatus
+
+	--             = Active Accounts =
+
+	-- Prospective Employees: 
+		-- Canadian Employees
+		('P-000000001', 'Yasmin', 'Bellevue', 1),
+		('P-000000002', 'Richard', 'Feynman', 1),
+		('P-000000003', 'Billy', 'Bobby', 1),
+		('P-000000004', 'Micheal', 'Jackson', 1),
+		('P-000000020', 'Mike', 'Jordan', 1), 
+		('P-000000023', 'Mike', 'Germain', 1),
+
+		('P-000000030', 'Jimmy', 'Smith', 1),
+		('P-000000031', 'Ben', 'Doe', 1),
+		('P-000000032', 'Lily', 'Williams', 1),
+
+
+		-- Previous Employee:
+		('P-000000021', 'Patty', 'Richards', 0), 
+
+
+	-- Prospective Customers: 
+	
+	--Active AND Canadian
+	('P-000000005', 'Oliver', 'Cromwell', 1),
+	('P-000000006', 'Hari', 'Seldon',1),
+    ('P-000000007', 'Mary', 'Beard',1),
+    ('P-000000008', 'Jade', 'Bellevue', 1),
+	('P-000000009', 'Nancy', 'Stancy', 1),
+	('P-000000010', 'Jakob', 'Matthews', 1),
+	('P-000000011', 'Michelle', 'Obama', 1),
+	
+	('P-000000012', 'Selena', 'Marina', 1),
+	('P-000000013', 'Joshua', 'Hitchford', 1),
+
+	--Active AND American
+	('P-000000025', 'Jamie', 'Bell', 1),
+	('P-000000026', 'Nico', 'Easton', 1),
+	('P-000000027', 'Timmy', 'Green', 1),
+
+
+	--             = Inactive Customer Accounts =
+    ('P-000000014', 'Albert', 'Einstein', 2),
+    ('P-000000015', 'Genevieve', 'Randolph', 2),
+
+	--			  = Suspended Customer Accounts
+	('P-000000016', 'Albert', 'Einstein', 3),
+    ('P-000000017', 'Genevieve', 'Randolph', 3),
+    
+	--             = Deactivated Customer Accounts =
+	('P-000000018', 'Sasha', 'Silvermist', 0),
+    ('P-000000019', 'Patty', 'Anderson', 0)
+
+
+--									= Employees & Customers Insertion =
+
+INSERT INTO Employee VALUES
+-- employeeID, peopleID, SSN, roleID
+    -- Canadian Employees
+	('E-000000001', 'P-000000001', 809248474, 0),
+    ('E-000000002', 'P-000000002', 415701220, 1),
+    ('E-000000003', 'P-000000003', 856186508, 2),
+    ('E-000000004', 'P-000000004', 913018453, 2),
+	('E-000000005', 'P-000000020', 870992077,3),
+	('E-000000006', 'P-000000021', 708474737, 2),
+	('E-000000007', 'P-000000023', 708444437, 1),
+
+	-- American Employees
+	('E-000000008', 'P-000000030', 123456789, 0),
+	('E-000000009', 'P-000000031', 234567891, 1),
+	('E-000000010', 'P-000000032', 345678912, 2)
+;
+
+
+
+INSERT INTO Customer VALUES
+	-- customerID, city, province, email, phonenumber, peopleID
+	
+									-- CANADIAN CUSTOMERS --
+	-- Alberta
+    ('C-000000001', 'Red Deer', 'C-AB', 'feynmanR@yahoo.ca', 7804564321, 'P-000000005'),
+    ('C-000000002', 'Edmonton', 'C-AB', 'alberteinstein@gmail.com', 5879874321, 'P-000000016'),
+    ('C-000000003', 'Calgary', 'C-AB', 'heehee@gmail.ca', 7801231234, 'P-000000007'),
+	('C-000000004', 'Edmonton', 'C-AB', 'coolboyskates@gmail.com', 5876687499, 'P-000000008'),
+
+	-- Toronto
+	('C-000000005', 'Toronto', 'C-ON', 'marybeard@gmail.com', 4165551234, 'P-000000009'),
+	('C-000000006', 'Missisauga', 'C-ON', 'chainmail@gmail.com', 905441879, 'P-000000012'),
+
+
+	-- North-West Territories
+	('C-000000007', 'Yellowknife', 'C-NT', 'SeldonH@protonmail.com', 8679205600, 'P-000000010'),
+	('C-000000008', 'Yellowknife', 'C-NT', 'SeldonH@protonmail.com', 8679205600, 'P-000000015'),
+	('C-000000009', 'Darwin', 'C-NT', 'Spiffyjiffy@icloud.com', 8671445699, 'P-000000013'),
+
+	-- Saskatchewan
+	('C-000000010', 'Regina', 'C-SK', 'AsimovI@gmail.com', 3067777000, 'P-000000011'),
+	('C-000000011', 'Saskatoon', 'C-SK', 'Moola@gmail.com', 3063382990, 'P-000000014'),
+
+	-- Manitoba
+	('C-000000012', 'Winnipeg', 'C-MT', 'cloudyday@gmail.com', 2043377930, 'P-000000018'),
+	('C-000000013', 'Steinbach', 'C-MT', 'asnakeonaplane@gmail.com', 4313552910, 'P-000000017'),
+
+
+								   -- AMERICAN CUSTOMERS --
+	('C-000000014', 'Seattle', 'U-MT', 'catlover22@gmail.com', 2043377930, 'P-000000025'),
+	('C-000000015', 'Portland', 'U-OR', 'bendoe@gmail.com', 5031234567, 'P-000000026'),
+	('C-000000016', 'Denver', 'U-CO', 'lwilliams@gmail.com', 7201234567, 'P-000000027')
+
+;
+
+
+--									= Movies & Actors Insertion =
+INSERT INTO Movie VALUES
+    (1, 'Starship Troopers', '1997', 5, 8, 2, 1, 5.50),
+    (2, 'Inglourious Basterds', '2009', 3, 10, 7, 0, 6.00),
+	(3, 'Alien', '1979', 0, 12, 12, 0, 3.75),
+    
+	(4, 'Crazy Rich Asians', '2018-08-07', 10, 15, 5, 0, 5.75),
+	(5, 'Ballerina', '2025-06-06', 2, 10, 7, 1, 6.66),
+	(6, 'The Hangover', '2009-04-30', 0, 20, 18, 2, 4.50),
+	
+	(7, 'Scary Movie', '2000-07-07', 2, 5, 2, 1, 1.25),
+	(8, 'Ice Age', '2002-03-15', 4, 10, 1, 0, 5.55),
+	(9, 'Project Hail Mary', '2026-03-20', 2, 5, 2, 1, 1.25),
+
+	(21, 'The Lord of the Rings: The Fellowship of the Ring', '2001-12-19', 3, 10, 7, 0, 4.00),   
+	(22, 'The Lord of the Rings: The Two Towers', '2002-12-18', 1, 10, 8, 1, 4.00)
+;
+
+
+INSERT INTO Actor VALUES
+    (1, 'M', '1968-12-18', 'Casper', 'Van Dien'),
+    (2, 'M', '1963-12-18', 'Brad', 'Pitt'),
+    (3, 'F', '1949-10-08', 'Sigourney', 'Weaver'),
+    (4, 'F', '1971-02-17', 'Denise', 'Richards'),
+    (5, 'M', '1950-02-12', 'Michael', 'Ironside'),
+    (6, 'F', '1976-07-15', 'Diane', 'Kruger'),
+    (7, 'M', '1956-10-04', 'Christoph', 'Waltz'),
+    (8, 'M', '1940-01-22', 'John', 'Hurt'),
+    (9, 'M', '1931-09-12', 'Ian', 'Holm'),
+    (10, 'F', '1988-04-30', 'Ana', 'de Armas'),
+    (11, 'F', '1982-03-22', 'Constance', 'Wu'),
+    (12, 'M', '1969-07-13', 'Ken', 'Jeong'),
+    (13,'F', '1971-07-20', 'Sandra', 'Oh'),
+    (14,'F', '1954-03-04', 'Catherine', 'O''Hara'),
+    (15,'F', '1983-12-21', 'Steven', 'Yeun')
+;
+	
+
+
+
+
+
+--									= Ratings Insertion =
+
+
+INSERT INTO Ratings VALUES
+-- RatingID, CustomerID
+	-- People Who Rated Movies
+    (1, 'C-000000001'),
+	(2, 'C-000000001'),
+	(3, 'C-000000002'),
+	(4, 'C-000000002'),
+	(5, 'C-000000003'),
+	(6, 'C-000000003'),
+    (7, 'C-000000004'),
+    (8, 'C-000000006'),
+    (9, 'C-000000005'),
+	(10,'C-000000006'),
+
+	-- People Who Rated Actors
+	(11,'C-000000007'),
+	(12,'C-000000008'),
+	(13,'C-000000008'),
+	(14,'C-000000009'),
+	(15,'C-000000010'),
+	(16,'C-000000011')
+
+;
+
+--                = MovieRating Inserts =
+
+-- RatingID movieID score, movieReview
+INSERT INTO MovieRating VALUES
+	(1, 3, 5, 'I think we need to do something about this'),
+    (2, 1, 4, 'I hate bugs!'),
+    (3, 2, 4.5, 'Masterpiece!'),
+    (4, 3, 5, 'classic and scry'),
+    (5, 4, 3, 'Awesome Movie!'),
+    (6, 6, 4.5, 'Classic!'),
+    (7, 5, 5, 'Made me cry!'),
+	(8, 9, 1, 'I cannot BELIEVE how they gave such SOUL to a rock')
+;
+
+
+
+--                = ActorRating Inserts =
+INSERT INTO ActorRating VALUES
+	-- ratingID, actorID, score
+    (11, 1, 4.5),
+    (12, 2, 4),
+    (13, 3, 5),
+    (14, 4, 4.5),
+    (15, 5, 4.8),
+    (16, 6, 4.9)
+;
+
+
+
+
+--                 = Queue-Related Insertions = 
+
+--             = MovieQueue Inserts =
+	-- Attributes: queueID, movieID
+
+INSERT INTO MovieQueue VALUES
+	-- queueID, movieID
+	(0, 1), -- StarTroopers Rented
+	(1, 2), -- Inglorious Bastards
+	(2, 4), -- Crazy Rich Asians
+
+	(21, 21), -- LOTR Fellow
+    (22, 22) --LOTR Tower
+;
+
+
+INSERT INTO JoinQueue VALUES
+	-- queueID, queue position, customerID
+
+	-- Renting Where They are the only one in the queue: 
+		
+	--Wrote Reviews For perspective movie: Also made an order for the movie with us
+	(0, 1, 'C-000000001'), -- StarTroopers Rented
+	(1, 1, 'C-000000002'), -- Inglorious Bastards
+	(2, 1, 'C-000000003'), -- C3 Also reviewed this movie
+	
+	(3, 1,'C-000000001') -- C1 reviewed alien
+
+
+	-- Made an order, but no review
+
+;
+
+
+
+
+
+
+
+--                 = Order-Related Insertions = 
+INSERT INTO OrderContext VALUES
+    (0, 'Pending'),
+    (1, 'Completed'),
+    (2, 'Overdue'),
+    (3, 'Missing')
+;
+
+
+INSERT INTO Orders VALUES
+	-- OrderID, issueDate,duedate,employeeid,customerid, contextid, movie id, returndate
+
+	-- Completed Orders:
+    (1, '2026-03-21', DATEADD(week, 2, '2026-03-21'), 'E-000000003', 'C-000000001', 1, 1, '2026-03-25'), --startrooper; later reviews
+    (2, '2026-03-23', DATEADD(week, 2, '2026-03-23'), 'E-000000001', 'C-000000002', 1, 2, '2026-04-02'), --Inglorious Bastards; later reviews
+    (3, '2026-02-01', DATEADD(week, 2, '2026-02-01'), 'E-000000003', 'C-000000003', 1, 4, '2026-02-12'), --crazy rich asians; later reviews
+
+	
+	-- Completed But Overdue
+    (4, '2026-02-20', DATEADD(week, 2, '2026-02-20'), 'E-000000004', 'C-000000004', 0, 8,'2026-03-10'),
+    (5, '2026-02-22', DATEADD(week, 2, '2026-02-22'), 'E-000000005', 'C-000000005', 3, 5,'2026-03-09'),
+    (6, '2026-02-22', DATEADD(week, 2, '2026-02-22'), 'E-000000006', 'C-000000006', 2, 6,'2026-03-12'),
+
+
+	-- Pending Orders: No return date (null)
+	(7, '2026-05-24', DATEADD(week, 2, '2026-05-24'), 'E-000000004', 'C-000000007', 0, 6, NULL),
+	(8, '2026-05-05', DATEADD(week, 2, '2026-05-05'), 'E-000000005', 'C-000000008', 0, 7, NULL),
+	(9, '2026-05-27', DATEADD(week, 2, '2026-05-27'), 'E-000000006', 'C-000000009', 0, 3, NULL),
+
+	-- Missing Orders: no return date AND context id = missing 
+	(10, '2026-04-20', DATEADD(week, 2, '2026-04-20'),'E-000000005', 'C-000000010', 3, 1, NULL),
+	(11, '2026-04-22', DATEADD(week, 2, '2026-04-22'),'E-000000003', 'C-000000011', 3, 8, NULL),
+	(12, '2026-04-23', DATEADD(week, 2, '2026-04-23'),'E-000000002', 'C-000000012', 3, 9, NULL)
+;

@@ -40,3 +40,11 @@ WHERE (Orders.customerID = Customer.customerID) and (Customer.peopleID = People.
 SELECT Movie.movieName, Movie.copiesAvailable
 FROM Movie
 
+/* Show at least one constraint test in comments */
+-- SELECT movieName
+-- 		FROM Movie
+-- 		WHERE movieID IN (
+-- 			SELECT movieID
+-- 			FROM Genre
+-- 			WHERE genreString = 1 /* The variable has to be a string*/
+-- 		);

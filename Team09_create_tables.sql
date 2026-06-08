@@ -95,24 +95,24 @@ CREATE TABLE Genre (
 	FOREIGN KEY(movieID) REFERENCES Movie(movieID)
 );
 
-
+CREATE TABLE MovieQueue (
+	queueID TINYINT NOT NULL PRIMARY KEY,
+	movieID NUMERIC(10) NOT NULL,
+	
+	FOREIGN KEY (movieID) REFERENCES Movie(movieID)
+);
 
 
 -- Customer, Movie Dependency Tables\
-CREATE TABLE JoinQueue (
-	queueID TINYINT NOT NULL PRIMARY KEY,
-	queuePosition TINYINT NOT NULL,
-	FK_customerID CHAR(11) NOT NULL,
+CREATE TABLE JoinQueue(
+	customerID CHAR(11) NOT NULL,
+	queueID TINYINT NOT NULL,
+	queuePosition TINYINT NOT NULL
 	
-	FOREIGN KEY (FK_customerID ) REFERENCES Customer(customerID)
+	FOREIGN KEY (customerID) REFERENCES Customer(customerID),
+	FOREIGN KEY (queueID) REFERENCES MovieQueue(queueID)
 );
 
-CREATE TABLE MovieQueue (
-	queueID TINYINT NOT NULL PRIMARY KEY,
-	FK_movieID NUMERIC(10) NOT NULL,
-	
-	FOREIGN KEY (FK_movieID) REFERENCES Movie(movieID)
-);
 
 CREATE TABLE Ratings (
 	ratingID NUMERIC(10) NOT NULL PRIMARY KEY,

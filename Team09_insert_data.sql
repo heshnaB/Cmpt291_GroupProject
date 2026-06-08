@@ -5,34 +5,37 @@
 
 -- Dependencies for: Customer, Employee
 INSERT INTO AcctStatus VALUES 
-    (0, 'Deactivated'), --Allows for IF Acctstatus to yield F if deactivated, T if Non-deactivated
-    (1, 'Active'),
+	-- Attributes: acctStatusID, statusString
+    (0, 'Deactivated'),
+	(1, 'Active'),
     (2, 'Inactive'),
     (3, 'Suspended')
 ;
-INSERT INTO Permanency VALUES   
+INSERT INTO Permanency VALUES
+	-- Attributes: PermenencyID, permanencyDesc
     (0, 'Full-Time'),
     (1, 'Part-Time'),
     (2, 'Seasonal/Temp')
 ;
 
 INSERT INTO EmployeeRole VALUES
--- roleID, jobTitle, roledesc, permanencyID
+	-- roleID, jobTitle, roledesc, permanencyID
     (0, 'Sales-Associate', 'Checkout', 1),
     (1, 'Assistant Manager', 'Checkout, Handles Overdue/Missing Cases, Deactivate Customer Accounts', 1),
     (2, 'IT Support & Operations', 'Troubleshooting, Upgrades, Installs & Monitors server & other internal systems', 1),
     (3, 'Manager', 'Checkout, Waives Late Fees, Deactivates Accounts', 1)
 ;
 
--- Verifying Above Works
+/* Verifying Above Works
 	SELECT * FROM AcctStatus
 	SELECT * FROM EmployeeRole
 	SELECT * FROM Permanency
-
+*/
 
 
 INSERT INTO People VALUES
--- peopleID, Fname, Lname, AcctStatus
+	-- peopleID, Fname, Lname, AcctStatus
+
 
 	--             = Active Accounts =
 
@@ -147,6 +150,7 @@ INSERT INTO Customer VALUES
 
 --									= Movies & Actors Insertion =
 INSERT INTO Movie VALUES
+	-- Attributes: movie id, name, release date, copies avail, copites total, copies rented, copies missing, distribution price
     (1, 'Starship Troopers', '1997', 5, 8, 2, 1, 5.50),
     (2, 'Inglourious Basterds', '2009', 3, 10, 7, 0, 6.00),
 	(3, 'Alien', '1979', 0, 12, 12, 0, 3.75),
@@ -165,21 +169,25 @@ INSERT INTO Movie VALUES
 
 
 INSERT INTO Actor VALUES
+	-- Attributes: actorID, gender, DOB, fname, lname
     (1, 'M', '1968-12-18', 'Casper', 'Van Dien'),
     (2, 'M', '1963-12-18', 'Brad', 'Pitt'),
     (3, 'F', '1949-10-08', 'Sigourney', 'Weaver'),
-    (4, 'F', '1971-02-17', 'Denise', 'Richards'),
-    (5, 'M', '1950-02-12', 'Michael', 'Ironside'),
-    (6, 'F', '1976-07-15', 'Diane', 'Kruger'),
-    (7, 'M', '1956-10-04', 'Christoph', 'Waltz'),
-    (8, 'M', '1940-01-22', 'John', 'Hurt'),
-    (9, 'M', '1931-09-12', 'Ian', 'Holm'),
-    (10, 'F', '1988-04-30', 'Ana', 'de Armas'),
-    (11, 'F', '1982-03-22', 'Constance', 'Wu'),
-    (12, 'M', '1969-07-13', 'Ken', 'Jeong'),
-    (13,'F', '1971-07-20', 'Sandra', 'Oh'),
-    (14,'F', '1954-03-04', 'Catherine', 'O''Hara'),
-    (15,'F', '1983-12-21', 'Steven', 'Yeun')
+    (30, 'F', '1971-02-17', 'Denise', 'Richards'),
+    (31, 'M', '1950-02-12', 'Michael', 'Ironside'),
+    (32, 'F', '1976-07-15', 'Diane', 'Kruger'),
+    (33, 'M', '1956-10-04', 'Christoph', 'Waltz'),
+    (34, 'M', '1940-01-22', 'John', 'Hurt'),
+    (35, 'M', '1931-09-12', 'Ian', 'Holm'),
+    (36, 'M', '1981-01-28', 'Elijah', 'Wood'),
+    (37, 'F', '1977-07-01', 'Liv', 'Tyler'),
+    (38, 'M', '1960-04-04', 'Hugo', 'Weaving'),
+    (4, 'F', '1988-04-30', 'Ana', 'de Armas'),
+    (5, 'F', '1982-03-22', 'Constance', 'Wu'),
+    (6, 'M', '1969-07-13', 'Ken', 'Jeong'),
+    (8,'F', '1971-07-20', 'Sandra', 'Oh'),
+    (9,'F', '1954-03-04', 'Catherine', 'O''Hara'),
+    (10,'F', '1983-12-21', 'Steven', 'Yeun')
 ;
 	
 
@@ -191,7 +199,8 @@ INSERT INTO Actor VALUES
 
 
 INSERT INTO Ratings VALUES
--- RatingID, CustomerID
+	-- Attributes: RatingID, CustomerID
+	
 	-- People Who Rated Movies
     (1, 'C-000000001'),
 	(2, 'C-000000001'),
@@ -216,8 +225,8 @@ INSERT INTO Ratings VALUES
 
 --                = MovieRating Inserts =
 
--- RatingID movieID score, movieReview
 INSERT INTO MovieRating VALUES
+	-- Attributes: RatingID movieID score, movieReview
 	(1, 3, 5, 'I think we need to do something about this'),
     (2, 1, 4, 'I hate bugs!'),
     (3, 2, 4.5, 'Masterpiece!'),
@@ -232,7 +241,7 @@ INSERT INTO MovieRating VALUES
 
 --                = ActorRating Inserts =
 INSERT INTO ActorRating VALUES
-	-- ratingID, actorID, score
+	-- Attributes: ratingID, actorID, score
     (11, 1, 4.5),
     (12, 2, 4),
     (13, 3, 5),
@@ -241,7 +250,54 @@ INSERT INTO ActorRating VALUES
     (16, 6, 4.9)
 ;
 
+--                = Features Inserts =
+INSERT INTO Features VALUES
+	-- Attributes: movieID, actorID
+    (1, 1),
+    (1, 30),
+    (1, 31),
+    (2, 2),
+    (2, 33),
+    (2, 32),
+    (3, 3),
+    (3, 34),
+    (3, 35),
+    (21, 35),
+    (21, 36),
+    (21, 37),
+    (21, 38),
+    (22, 36),
+    (22, 37),
+    (22, 38),
+    (23, 35),
+    (23, 36),
+    (23, 37),
+    (23, 38),
+    (4, 5),
+    (4, 6),
+    (5, 4),
+    (6, 6)
+;
 
+--                = Genre Inserts =
+INSERT INTO Genre VALUES
+    -- Attributes: movieID, genreString
+	(1, 'Action'),
+    (1, 'Science Fiction'),
+    (2, 'Black Comedy'),
+    (2, 'War Film'),
+    (3, 'Science Fiction'),
+    (3, 'Horror'),
+    (21, 'Epic Fantasy'),
+    (22, 'Epic Fantasy'),
+    (23, 'Epic Fantasy'),
+    (4, 'Thriller'),
+    (5, 'Romance'),
+    (6, 'Comedy'),
+    (8,'Family'),
+    (9,'Horror'),
+    (9,'Hard Science Fiction')
+;
 
 
 --                 = Queue-Related Insertions = 
@@ -251,9 +307,12 @@ INSERT INTO ActorRating VALUES
 
 INSERT INTO MovieQueue VALUES
 	-- queueID, movieID
-	(0, 1), -- StarTroopers Rented
-	(1, 2), -- Inglorious Bastards
-	(2, 4), -- Crazy Rich Asians
+	(1, 1), -- StarTroopers Rented
+	(2, 2), -- Inglorious Bastards
+	(3, 4), -- Crazy Rich Asians
+	(4, 4),
+    (5, 5),
+    (6, 6),
 
 	(21, 21), -- LOTR Fellow
     (22, 22) --LOTR Tower
@@ -261,23 +320,33 @@ INSERT INTO MovieQueue VALUES
 
 
 INSERT INTO JoinQueue VALUES
-	-- queueID, queue position, customerID
-
-	-- Renting Where They are the only one in the queue: 
+	-- CustomerID, queueID, Queueposition
 		
 	--Wrote Reviews For perspective movie: Also made an order for the movie with us
-	(0, 1, 'C-000000001'), -- StarTroopers Rented
-	(1, 1, 'C-000000002'), -- Inglorious Bastards
-	(2, 1, 'C-000000003'), -- C3 Also reviewed this movie
-	
-	(3, 1,'C-000000001') -- C1 reviewed alien
-
-
-	-- Made an order, but no review
-
+	('C-000000001', 1, 1), -- StarTroopers Rented
+	('C-000000002', 2, 1), -- Inglorious Bastards
+	('C-000000003', 3, 1), -- C3 Also reviewed this movie
+	('C-000000001', 4, 1),
+	('C-000000001', 1, 1),
+    ('C-000000001', 2, 2),
+    ('C-000000003', 3, 1),
+    ('C-000000002', 2, 1),
+    ('C-000000003', 1, 2),
+    ('C-000000002', 3, 2),
+    ('C-000000001', 21, 1),
+    ('C-000000003', 21, 2),
+    ('C-000000005', 21, 3),
+    ('C-000000001', 22, 3),
+    ('C-000000004', 22, 1),
+    ('C-000000003', 22, 2),
+    ('C-000000001', 23, 4),
+    ('C-000000003', 23, 1),
+    ('C-000000006', 23, 2),
+    ('C-000000005', 23, 3),
+    ('C-000000004', 4, 1 /*placeholder*/),
+    ('C-000000005', 5, 1 /*placeholder*/),
+    ('C-000000006', 6, 1 /*placeholder*/)
 ;
-
-
 
 
 

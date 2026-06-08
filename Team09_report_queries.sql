@@ -68,34 +68,10 @@
 	WHERE accountStatusID = 0
 
 
--- 4: Information For Decision-Making
-
-	-- A. Most popular movie rented
-		SELECT movieName, COUNT(*) as TimesRented
-		FROM Movie, Orders
-		WHERE Movie.movieID = Orders.movieID
-		GROUP BY movieName
-		ORDER BY TimesRented DESC
-
--- 5: Find the employee(s) with the highest orders processed
-SELECT firstName+' '+lastName as FullName, count(*) as num_Orders
-FROM People
-JOIN Employee E ON People.peopleID = E.peopleID
-JOIN Orders O ON E.employeeID = O.employeeID
-GROUP BY firstName, lastName
-HAVING count(*) = (
-	SELECT max(order_count)
-	FROM (
-		SELECT count(*) as order_count
-		FROM Orders
-		GROUP BY Orders.employeeID
-		) as subq
-	);
-
--- 6: Find all customer(s) who are in a queue for movie(s)
-SELECT firstName+' '+lastName AS Full_Name
-FROM People
-WHERE People.peopleID IN (SELECT peopleID
+	-- B. Find all customer(s) who are in a queue for movie(s), How long are queues in general?
+	SELECT firstName+' '+lastName AS Full_Name
+	FROM People
+	WHERE People.peopleID IN (SELECT peopleID
 							FROM Customer
 							WHERE  Customer.customerID IN ( 
 									SELECT customerID
@@ -107,12 +83,14 @@ WHERE People.peopleID IN (SELECT peopleID
 							)
 						);
 
--- Find all the movies with the Epic Fantasy Genre
-SELECT movieName
-FROM Movie
-WHERE movieID IN (
-	SELECT movieID
-	FROM Genre
-	WHERE genreString = 'Epic Fantasy'
-);
+
+
+-- 4: Information For Decision-Making
+
+	-- A. Most popular movie rented
+		SELECT movieName, COUNT(*) as TimesRented
+		FROM Movie, Orders
+		WHERE Movie.movieID = Orders.movieID
+		GROUP BY movieName
+		ORDER BY TimesRented DESC
 

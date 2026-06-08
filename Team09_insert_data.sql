@@ -1,4 +1,6 @@
---									                                      == Inserting Values ==
+USE CMPT291_Team09_MovieRental;
+GO	
+--								                                      == Inserting Values ==
 
 -- TEAM 09 ; Alex, Esperanza, Heshna, Ryan
 

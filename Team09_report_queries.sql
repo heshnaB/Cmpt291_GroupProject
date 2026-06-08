@@ -27,7 +27,7 @@
 	ORDER BY customerID
 
 	-- C. Find Employees who are also customers
-	SELECT DISTINCT firstName||' '||lastName as EmployeesWhoPlacedOrders
+	SELECT DISTINCT firstName+' '+lastName as EmployeesWhoPlacedOrders
 	FROM People
 	JOIN Employee E ON People.peopleID = E.peopleID
 	JOIN Orders O ON E.employeeID = O.employeeID
@@ -44,7 +44,7 @@
 	GROUP BY Employee.employeeID
 
 	-- B. Find the employee(s) with the highest orders handled
-	SELECT E.employeeID, firstName||' '||lastName as FullName, count(*) as num_Orders
+	SELECT E.employeeID, firstName+' '+lastName as FullName, count(*) as num_Orders
 	FROM People
 	JOIN Employee E ON People.peopleID = E.peopleID
 	JOIN Orders O ON E.employeeID = O.employeeID
@@ -76,3 +76,43 @@
 		WHERE Movie.movieID = Orders.movieID
 		GROUP BY movieName
 		ORDER BY TimesRented DESC
+
+-- 5: Find the employee(s) with the highest orders processed
+SELECT firstName+' '+lastName as FullName, count(*) as num_Orders
+FROM People
+JOIN Employee E ON People.peopleID = E.peopleID
+JOIN Orders O ON E.employeeID = O.employeeID
+GROUP BY firstName, lastName
+HAVING count(*) = (
+	SELECT max(order_count)
+	FROM (
+		SELECT count(*) as order_count
+		FROM Orders
+		GROUP BY Orders.employeeID
+		) as subq
+	);
+
+-- 6: Find all customer(s) who are in a queue for movie(s)
+SELECT firstName+' '+lastName AS Full_Name
+FROM People
+WHERE People.peopleID IN (SELECT peopleID
+							FROM Customer
+							WHERE  Customer.customerID IN ( 
+									SELECT customerID
+									FROM MovieQueue
+									WHERE CustomerID IN (
+										SELECT CustomerID
+										FROM JoinQUeue
+									)
+							)
+						);
+
+-- Find all the movies with the Epic Fantasy Genre
+SELECT movieName
+FROM Movie
+WHERE movieID IN (
+	SELECT movieID
+	FROM Genre
+	WHERE genreString = 'Epic Fantasy'
+);
+

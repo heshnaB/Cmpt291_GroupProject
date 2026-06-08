@@ -13,11 +13,24 @@ J. What to submit for Deliverable 2
 # Remaining:
 ● Screenshots showing that the table script, insert script, verification queries, and report queries run in SSMS: Added to our google doc
 ● Design Change Log, if your implementation differs from Deliverable 1
-
+● We MUST complete the constraint demonstration in report queries
 
 
 # !! NOTICE !!     DATA YET TO BE INSERTED
 
 We must add a genre -> movie categorization rows. nowhere do we store what movie is what genre
 Not all customers have placed an order
-We MUST complete the constraint demonstration in report queries
+
+
+- - - - - - - - - - - - - !! FOR PART D: it mentions using DEFAULT: we should likely implement this.
+
+
+# Lastly: Part E 
+
+Important data-quality requirements
+● Include at least one unavailable or fully rented movie if your schema tracks availability.
+● Include rentals from more than one month if you plan a monthly rental income report.
+● Include at least two employees who processed rentals so employee comparisons are meaningful.
+● Include movies from all required movie types if your reports filter or group by movie type.
+● Include enough repeated rentals to identify most active customers and most rented movies.
+● Test that invalid data is rejected, such as an invalid movie type or rating outside the valid range.

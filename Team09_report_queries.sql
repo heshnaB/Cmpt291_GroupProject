@@ -3,6 +3,7 @@
 -- TEAM 09 ; Alex, Esperanza, Heshna, Ryan
 
 
+
 -- 1: Community Engagement Analysis
 
 	-- A. Find All Customers who wrote a review, and list the movie they rated

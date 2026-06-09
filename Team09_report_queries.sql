@@ -104,3 +104,10 @@
 			FROM Genre
 			WHERE genreString = 'Epic Fantasy'
 		);
+
+-- 6: Many-to-Many Relationship:
+	/* Show actors for a selected movie. */
+	SELECT Actor.firstName||' '||Actor.lastName as Full_Name
+	FROM Actor, Movie, Features
+	WHERE (Movie.movieID = 1) and (Actor.actorID = Features.FK_actorID) and (Features.FK_movieID = Movie.movieID)
+	/* (Movie.movieID = 1) is Starship Troopers */

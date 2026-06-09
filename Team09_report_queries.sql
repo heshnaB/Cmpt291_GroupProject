@@ -58,6 +58,12 @@
 		) as subq
 );
 
+	--C. Find the movies with a rating. Display the name, score, and reviews
+	SELECT movieName, CAST(score AS VARCHAR)+'/5' AS Rating, movieReview
+	FROM MovieRating
+	INNER JOIN Ratings ON Ratings.ratingID = MovieRating.ratingID
+	INNER JOIN Movie ON Movie.movieID = MovieRating.FK_movieID;
+
 
 
 -- 3: Internal Systems Overview

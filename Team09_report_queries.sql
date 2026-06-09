@@ -59,7 +59,8 @@
 );
 
 	--C. Find the movies with a rating. Display the name, score, and reviews
-	SELECT movieName, CAST(score AS VARCHAR)+'/5' AS Rating, movieReview
+	SELECT movieName, CAST(score AS VARCHAR)+'/5' AS Rating, 
+		CAST(movieReview AS VARCHAR(MAX)) AS Movie_Review
 	FROM MovieRating
 	INNER JOIN Ratings ON Ratings.ratingID = MovieRating.ratingID
 	INNER JOIN Movie ON Movie.movieID = MovieRating.FK_movieID;
@@ -112,8 +113,8 @@
 		);
 
 -- 6: Many-to-Many Relationship:
-	/* Show actors for a selected movie. */
-	SELECT Actor.firstName||' '||Actor.lastName as Full_Name
-	FROM Actor, Movie, Features
-	WHERE (Movie.movieID = 1) and (Actor.actorID = Features.FK_actorID) and (Features.FK_movieID = Movie.movieID)
-	/* (Movie.movieID = 1) is Starship Troopers */
+	-- /* Show actors for a selected movie. */
+	-- SELECT Actor.firstName||' '||Actor.lastName as Full_Name
+	-- FROM Actor, Movie, Features
+	-- WHERE (Movie.movieID = 1) and (Actor.actorID = Features.FK_actorID) and (Features.FK_movieID = Movie.movieID)
+	-- /* (Movie.movieID = 1) is Starship Troopers */

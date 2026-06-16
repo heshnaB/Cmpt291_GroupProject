@@ -164,6 +164,9 @@ INSERT INTO Movie VALUES
 	(7, 'Scary Movie', '2000-07-07', 2, 5, 2, 1, 1.25),
 	(8, 'Ice Age', '2002-03-15', 4, 10, 1, 0, 5.55),
 	(9, 'Project Hail Mary', '2026-03-20', 2, 5, 2, 1, 1.25),
+	(10, 'The Princess Diaries', '2001-08-01', 5, 8, 4, 1, 1.25),
+	(11, 'The Addams Family', '2019-10-11', 8, 10, 2, 0, 2.50),
+	(12, 'The Legend of Aang: The Last Airbender','2005-02-21', 3, 12, 8, 1, 3.20),
 
 	(21, 'The Lord of the Rings: The Fellowship of the Ring', '2001-12-19', 3, 10, 7, 0, 4.00),   
 	(22, 'The Lord of the Rings: The Two Towers', '2002-12-18', 1, 10, 8, 1, 4.00),
@@ -280,7 +283,10 @@ INSERT INTO Features VALUES
     (4, 5),
     (4, 6),
     (5, 4),
-    (6, 6)
+    (6, 6),
+	(10, 8),
+	(11, 9),
+	(12, 10)
 ;
 
 --                = Genre Inserts =

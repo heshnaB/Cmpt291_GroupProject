@@ -1,6 +1,8 @@
----									                                       == Create Tables ==
+--	
+--							                                       == Create Tables ==
 
 -- TEAM 09 ; Alex, Esperanza, Heshna, Ryan
+
 
 USE master;
 GO
@@ -15,6 +17,7 @@ GO
 USE CMPT291_Team09_MovieRental;
 GO
 
+
 --									= Table Creation = 
 
 -- People, Customer + Dependency Tables \
@@ -23,6 +26,7 @@ CREATE TABLE AcctStatus (
 	accountState VARCHAR(15),
 	PRIMARY KEY (accountStatusID)
 );
+
 
 CREATE TABLE People (
 	peopleID CHAR(11) NOT NULL PRIMARY KEY,
@@ -43,7 +47,25 @@ CREATE TABLE Customer (
 
 	FOREIGN KEY (peopleID) REFERENCES People(peopleID)
 );
+
+--									= Customers Usernames For Login =
+CREATE TABLE UserLogin (
+	customerID CHAR(11) PRIMARY KEY,
+	userAlias VARCHAR(50) NOT NULL UNIQUE,
+	
+
+	passwordHash VARCHAR(128), -- configured to be 
+	salt VARCHAR(64), -- configured to be 
+
+	CHECK (LEN (passwordHash) <=44),
+
+	FOREIGN KEY (customerID) REFERENCES Customer (customerID)
+);
+GO
+
+
 -- People, Customer + Dependency Tables \
+
 
 -- Employee + Dependency Tables \
 CREATE TABLE Permanency (
@@ -70,6 +92,8 @@ CREATE TABLE Employee (
 );
 -- Employee + Dependency Tables/
 
+
+
 -- Movie + Dependent
 CREATE TABLE Movie (
 	movieID NUMERIC(10) NOT NULL PRIMARY KEY,
@@ -91,20 +115,22 @@ CREATE TABLE Genre (
 
 CREATE TABLE MovieQueue (
 	queueID TINYINT NOT NULL PRIMARY KEY,
-	movieID NUMERIC(10) NOT NULL,
+	FK_movieID NUMERIC(10) NOT NULL,
 	
-	FOREIGN KEY (movieID) REFERENCES Movie(movieID)
+	FOREIGN KEY (FK_movieID) REFERENCES Movie(movieID)
 );
+
 
 -- Customer, Movie Dependency Tables\
 CREATE TABLE JoinQueue(
-	customerID CHAR(11) NOT NULL,
+	FK_customerID CHAR(11) NOT NULL,
 	queueID TINYINT NOT NULL,
 	queuePosition TINYINT NOT NULL
 	
-	FOREIGN KEY (customerID) REFERENCES Customer(customerID),
+	FOREIGN KEY (FK_customerID) REFERENCES Customer(customerID),
 	FOREIGN KEY (queueID) REFERENCES MovieQueue(queueID)
 );
+
 
 CREATE TABLE Ratings (
 	ratingID NUMERIC(10) NOT NULL PRIMARY KEY,
@@ -128,6 +154,9 @@ CREATE TABLE MovieRating (
 
 -- Actor, Movie Dependency Tables/
 
+
+
+
 -- Actor + Ratings Dependency/
 CREATE TABLE Actor (
 	actorID NUMERIC(4) NOT NULL PRIMARY KEY,
@@ -136,6 +165,8 @@ CREATE TABLE Actor (
 	firstName NVARCHAR(25),
 	lastName NVARCHAR(25)
 );
+
+
 
 CREATE TABLE ActorRating (
 	ratingID NUMERIC(10) NOT NULL PRIMARY KEY,
@@ -149,7 +180,10 @@ CREATE TABLE ActorRating (
 		CHECK (score BETWEEN 1 AND 5)
 );
 
+
+
 -- Actor + Ratings Dependency/
+
 
 -- Movie, Actor Dependencies
 CREATE TABLE Features (
@@ -159,6 +193,7 @@ CREATE TABLE Features (
 	FOREIGN KEY(FK_movieID) REFERENCES Movie(movieID),
 	FOREIGN KEY(FK_actorID) REFERENCES Actor(actorID)
 );
+
 
 -- Order Context
 CREATE TABLE OrderContext (
@@ -182,43 +217,218 @@ CREATE TABLE Orders (
 	FOREIGN KEY (movieID) REFERENCES Movie(movieID)
 );
 
---									                                      == Inserting Values ==
+
+--                        = Creating All Views =
+--					Creating Views for the Project:
+DROP VIEW IF EXISTS UserLoginAliases;
+GO
+CREATE VIEW UserLoginAliases AS
+	SELECT customerID, userAlias
+	FROM UserLogin;
+GO
+
+
+DROP VIEW IF EXISTS CustHashSalt;
+GO
+CREATE VIEW CustHashSalt AS
+	SELECT customerID, passwordHash, salt
+	FROM UserLogin;
+GO
+
+
+/* Create a view AllAccountStats */
+DROP VIEW IF EXISTS AllAccountStats;
+GO
+
+CREATE VIEW AllAccountStats AS
+SELECT 
+    peopleID,
+    firstName+' '+lastName as Full_Name,
+    accountState,
+    P.accountStatusID as accountStatus
+FROM People P, AcctStatus Ac
+WHERE P.accountStatusID = Ac.accountStatusID
+GO
+
+/* Create a view CustomerPersonalInfo */
+DROP VIEW IF EXISTS CustomerPersonalInfo;
+GO
+
+CREATE VIEW CustomerPersonalInfo AS
+SELECT
+    C.customerID,
+    P.firstname as First_Name,
+    P.lastName as Last_Name,
+    C.city as City,
+    C.province as Province,
+    C.phoneNumber as Phone_Number,
+    C.email as Email
+FROM People P
+INNER JOIN Customer C ON P.peopleID = C.peopleID;
+GO
+
+/* Create a view CustomerList */
+DROP VIEW IF EXISTS CustomerList;
+GO
+
+CREATE VIEW CustomerList AS
+SELECT
+    C.customerID as customerID,
+    P.firstname+' '+P.lastName as CustomerName
+FROM People P
+INNER JOIN Customer C ON P.peopleID = C.peopleID;
+GO
+
+/* Create a view EmployeeInfo */
+DROP VIEW IF EXISTS EmployeeInfo;
+GO
+
+CREATE VIEW EmployeeInfo AS
+SELECT
+    E.employeeID,
+    P.firstname+' '+P.lastName as Full_Name,
+    jobTitle as Title,
+    permancyDesc as Permanency
+FROM People P
+INNER JOIN Employee E ON P.peopleID = E.peopleID
+INNER JOIN EmployeeRole ER ON E.roleID = ER.roleID
+INNER JOIN Permanency Pe ON ER.permanencyID = Pe.permanencyID
+GO
+
+/* Create a vew OrderInfo */
+DROP VIEW IF EXISTS OrderInfo;
+GO
+
+CREATE VIEW OrderInfo AS
+SELECT
+    O.customerID,
+    O.orderID,
+    M.movieName,
+    O.issueDate,
+    O.returnDate,
+    OC.orderStatus
+FROM Orders O
+INNER JOIN OrderContext OC ON O.contextID = OC.contextID
+INNER JOIN Movie M ON O.movieID = M.movieID;
+GO
+
+/* Create a view MovieListing */
+DROP VIEW IF EXISTS MovieListing;
+GO
+
+CREATE VIEW MovieListing AS
+SELECT
+    movieName as Title,
+    GenreList as Genre,
+    ActorList as Actors,
+    copiesAvailable as Available
+FROM Movie M
+INNER JOIN (
+    SELECT movieID, STRING_AGG(genreString, ', ') AS GenreList
+    FROM Genre
+    GROUP BY movieID
+) G ON M.movieID = G.movieID
+INNER JOIN (
+    SELECT F.FK_movieID, STRING_AGG(CONCAT(A.firstName, ' ', A.lastName), ', ') AS ActorList
+    FROM Features F
+    INNER JOIN Actor A ON F.FK_actorID = A.actorID
+    GROUP BY F.FK_movieID
+) A ON M.movieID = A.FK_movieID;
+GO
+
+/* Create a view MovieReviewList */
+DROP VIEW IF EXISTS MovieReviewList;
+GO
+
+CREATE VIEW MovieReviewList AS
+SELECT
+    FK_customerID,
+    movieName as Movie_Name,
+    movieID,
+    score as Score,
+    movieReview as Review
+FROM Ratings R
+INNER JOIN (
+    SELECT ratingID, movieName, score, movieReview, movieID
+    FROM MovieRating MR
+    INNER JOIN Movie M ON MR.FK_movieID = M.movieID
+) _MR ON R.ratingID = _MR.ratingID
+GO
+
+/* Create a view ActorReviewList */
+DROP VIEW IF EXISTS ActorReviewList;
+GO
+
+CREATE VIEW ActorReviewList AS
+SELECT
+    FK_customerID,
+    firstName+' '+lastName as Actor_Name,
+    score as Score
+FROM Ratings R
+INNER JOIN (
+    SELECT ratingID, firstName, lastName, score
+    FROM ActorRating AR
+    INNER JOIN Actor A ON AR.FK_actorID = A.actorID
+) _AR ON R.ratingID = _AR.ratingID
+GO
+
+/* Create a view CustomerQueue */
+DROP VIEW IF EXISTS CustomerQueue;
+GO
+
+CREATE VIEW CustomerQueue AS
+SELECT
+    JQ.queueID as Queue_ID,
+    FK_customerID,
+    movieName,
+    queuePosition
+FROM JoinQueue JQ
+INNER JOIN MovieQueue MQ ON JQ.queueID = MQ.queueID
+INNER JOIN Movie M ON Mq.FK_movieID = M. movieID
+GO
+
+/* Create AllOrders view */
+DROP VIEW IF EXISTS AllOrders;
+GO
+
+CREATE VIEW AllOrders AS
+SELECT 
+    orderID,
+    issueDate,
+    dueDate,
+    customerID,
+    employeeID,
+    movieID,
+    returnDate,
+    orderStatus
+FROM Orders O
+INNER JOIN OrderContext OC ON O.contextID = OC.contextID
+GO
+
+USE CMPT291_Team09_MovieRental;
+GO	
+--								                                      == Inserting Values ==
 
 -- TEAM 09 ; Alex, Esperanza, Heshna, Ryan
 
-/*                 = AcctStatus Inserts =
-Attributes:
-	accountStatusID NUMERIC(1)
-	accountState VARCHAR(15)
 
-	Dependencies for: Customer, Employee
-*/ 
+-- Dependencies for: Customer, Employee
 INSERT INTO AcctStatus VALUES 
+	-- Attributes: acctStatusID, statusString
     (0, 'Deactivated'),
 	(1, 'Active'),
     (2, 'Inactive'),
     (3, 'Suspended')
 ;
-
-/*                 = Permanency Inserts =
-Attributes:
-	permanencyID numeric(1) PRIMARY KEY
-	permancyDesc VARCHAR(40)
-*/
 INSERT INTO Permanency VALUES
+	-- Attributes: PermenencyID, permanencyDesc
     (0, 'Full-Time'),
     (1, 'Part-Time'),
     (2, 'Seasonal/Temp')
 ;
 
-/*                 = EmployeeRole Inserts =
-Attributes:
-	roleID NUMERIC(1) PRIMARY KEY
-	jobTitle VARCHAR(35)
-	roleDesc VARCHAR(125)
-	permanencyID numeric(1)
-*/
 INSERT INTO EmployeeRole VALUES
+	-- roleID, jobTitle, roledesc, permanencyID
     (0, 'Sales-Associate', 'Checkout', 1),
     (1, 'Assistant Manager', 'Checkout, Handles Overdue/Missing Cases, Deactivate Customer Accounts', 1),
     (2, 'IT Support & Operations', 'Troubleshooting, Upgrades, Installs & Monitors server & other internal systems', 1),
@@ -231,14 +441,11 @@ INSERT INTO EmployeeRole VALUES
 	SELECT * FROM Permanency
 */
 
-/*                 = People Inserts = 
-Attributes:
-	peopleID CHAR(11) NOT NULL PRIMARY KEY
-	firstName NVARCHAR(15)
-	lastName VARCHAR(20)
-	accountStatusID NUMERIC(1)
-*/
+
 INSERT INTO People VALUES
+	-- peopleID, Fname, Lname, AcctStatus
+
+
 	--             = Active Accounts =
 
 	-- Prospective Employees: 
@@ -249,15 +456,18 @@ INSERT INTO People VALUES
 		('P-000000004', 'Micheal', 'Jackson', 1),
 		('P-000000020', 'Mike', 'Jordan', 1), 
 		('P-000000023', 'Mike', 'Germain', 1),
+
 		('P-000000030', 'Jimmy', 'Smith', 1),
 		('P-000000031', 'Ben', 'Doe', 1),
 		('P-000000032', 'Lily', 'Williams', 1),
 
+
 		-- Previous Employee:
 		('P-000000021', 'Patty', 'Richards', 0), 
 
-	-- Prospective Customers: 
 
+	-- Prospective Customers: 
+	
 	--Active AND Canadian
 	('P-000000005', 'Oliver', 'Cromwell', 1),
 	('P-000000006', 'Hari', 'Seldon',1),
@@ -266,6 +476,7 @@ INSERT INTO People VALUES
 	('P-000000009', 'Nancy', 'Stancy', 1),
 	('P-000000010', 'Jakob', 'Matthews', 1),
 	('P-000000011', 'Michelle', 'Obama', 1),
+	
 	('P-000000012', 'Selena', 'Marina', 1),
 	('P-000000013', 'Joshua', 'Hitchford', 1),
 
@@ -273,6 +484,7 @@ INSERT INTO People VALUES
 	('P-000000025', 'Jamie', 'Bell', 1),
 	('P-000000026', 'Nico', 'Easton', 1),
 	('P-000000027', 'Timmy', 'Green', 1),
+
 
 	--             = Inactive Customer Accounts =
     ('P-000000014', 'Albert', 'Einstein', 2),
@@ -286,15 +498,9 @@ INSERT INTO People VALUES
 	('P-000000018', 'Sasha', 'Silvermist', 0),
     ('P-000000019', 'Patty', 'Anderson', 0)
 
+
 --									= Employees & Customers Insertion =
 
-/*                 = Employee Inserts =
-Attributes:
-	employeeID CHAR(11) NOT NULL PRIMARY KEY
-	peopleID CHAR(11) NOT NULL
-	SSN NUMERIC(9) NOT NULL
-	roleID NUMERIC(1) NOT NULL
-*/ 
 INSERT INTO Employee VALUES
 -- employeeID, peopleID, SSN, roleID
     -- Canadian Employees
@@ -312,18 +518,11 @@ INSERT INTO Employee VALUES
 	('E-000000010', 'P-000000032', 345678912, 2)
 ;
 
-/*                 = Customer Inserts =
-Attributes:
-	customerID CHAR(11) NOT NULL PRIMARY KEY
-	city CHAR(32)
-	province CHAR(4)
-	email VARCHAR(50)
-	phoneNumber NUMERIC(10)
-	peopleID CHAR(11) NOT NULL
-*/  
+
+
 INSERT INTO Customer VALUES
 	-- customerID, city, province, email, phonenumber, peopleID
-
+	
 									-- CANADIAN CUSTOMERS --
 	-- Alberta
     ('C-000000001', 'Red Deer', 'C-AB', 'feynmanR@yahoo.ca', 7804564321, 'P-000000005'),
@@ -349,52 +548,41 @@ INSERT INTO Customer VALUES
 	('C-000000012', 'Winnipeg', 'C-MT', 'cloudyday@gmail.com', 2043377930, 'P-000000018'),
 	('C-000000013', 'Steinbach', 'C-MT', 'asnakeonaplane@gmail.com', 4313552910, 'P-000000017'),
 
+
 								   -- AMERICAN CUSTOMERS --
 	('C-000000014', 'Seattle', 'U-MT', 'catlover22@gmail.com', 2043377930, 'P-000000025'),
 	('C-000000015', 'Portland', 'U-OR', 'bendoe@gmail.com', 5031234567, 'P-000000026'),
 	('C-000000016', 'Denver', 'U-CO', 'lwilliams@gmail.com', 7201234567, 'P-000000027')
+
 ;
 
+
 --									= Movies & Actors Insertion =
-
-/*                = Movie Inserts =
-Attributes:
-	movieID NUMERIC(10) NOT NULL PRIMARY KEY
-	movieName VARCHAR(75) NOT NULL
-	releaseDate DATE
-	copiesAvailable SMALLINT
-	copiesTotal SMALLINT NOT NULL
-	copiesRented SMALLINT
-	copiesMissing SMALLINT
-	distributionPrice smallMoney
-
-CONSTRAINTS TO TEST: 
-    Can we have more movies rented than we total?
-*/
 INSERT INTO Movie VALUES
+	-- Attributes: movie id, name, release date, copies avail, copites total, copies rented, copies missing, distribution price
     (1, 'Starship Troopers', '1997', 5, 8, 2, 1, 5.50),
     (2, 'Inglourious Basterds', '2009', 3, 10, 7, 0, 6.00),
 	(3, 'Alien', '1979', 0, 12, 12, 0, 3.75),
+    
 	(4, 'Crazy Rich Asians', '2018-08-07', 10, 15, 5, 0, 5.75),
 	(5, 'Ballerina', '2025-06-06', 2, 10, 7, 1, 6.66),
 	(6, 'The Hangover', '2009-04-30', 0, 20, 18, 2, 4.50),
+	
 	(7, 'Scary Movie', '2000-07-07', 2, 5, 2, 1, 1.25),
 	(8, 'Ice Age', '2002-03-15', 4, 10, 1, 0, 5.55),
 	(9, 'Project Hail Mary', '2026-03-20', 2, 5, 2, 1, 1.25),
+	(10, 'The Princess Diaries', '2001-08-01', 5, 8, 4, 1, 1.25),
+	(11, 'The Addams Family', '2019-10-11', 8, 10, 2, 0, 2.50),
+	(12, 'The Legend of Aang: The Last Airbender','2005-02-21', 3, 12, 8, 1, 3.20),
+
 	(21, 'The Lord of the Rings: The Fellowship of the Ring', '2001-12-19', 3, 10, 7, 0, 4.00),   
 	(22, 'The Lord of the Rings: The Two Towers', '2002-12-18', 1, 10, 8, 1, 4.00),
 	(23, 'The Lord of the Rings: The Return of the King', '2003-12-17', 4, 10, 4, 2, 4.00)
 ;
 
-/*             = Actor Inserts =
-Attributes:
-	actorID CHAR(11) NOT NULL,
-	gender CHAR(1),
-	DOB DATE,
-	firstName NVARCHAR(25),
-	lastName NVARCHAR(25)
-*/
+
 INSERT INTO Actor VALUES
+	-- Attributes: actorID, gender, DOB, fname, lname
     (1, 'M', '1968-12-18', 'Casper', 'Van Dien'),
     (2, 'M', '1963-12-18', 'Brad', 'Pitt'),
     (3, 'F', '1949-10-08', 'Sigourney', 'Weaver'),
@@ -415,15 +603,18 @@ INSERT INTO Actor VALUES
     (37, 'F', '1977-07-01', 'Liv', 'Tyler'),
     (38, 'M', '1960-04-04', 'Hugo', 'Weaving')
 ;
+	
+
+
+
+
 
 --									= Ratings Insertion =
 
-/*                = Ratings Inserts =
-Attributes:
-    ratingID NUMERIC(10) NOT NULL
-    customerID CHAR(11) NOT NULL
-*/
+
 INSERT INTO Ratings VALUES
+	-- Attributes: RatingID, CustomerID
+	
 	-- People Who Rated Movies
     (1, 'C-000000001'),
 	(2, 'C-000000001'),
@@ -435,6 +626,7 @@ INSERT INTO Ratings VALUES
     (8, 'C-000000006'),
     (9, 'C-000000005'),
 	(10,'C-000000006'),
+
 	-- People Who Rated Actors
 	(11,'C-000000007'),
 	(12,'C-000000008'),
@@ -442,21 +634,13 @@ INSERT INTO Ratings VALUES
 	(14,'C-000000009'),
 	(15,'C-000000010'),
 	(16,'C-000000011')
+
 ;
 
 --                = MovieRating Inserts =
 
-/*                = MovieRating Inserts =
-Attributes:
-	ratingID NUMERIC(10) NOT NULL,
-	movieID NUMERIC(10) NOT NULL,
-	score NUMERIC(2,1),
-	movieReview VARCHAR(250)
-
-	CONSTRAINT chkMovScore
-		CHECK (score BETWEEN 1 AND 5)
-*/
 INSERT INTO MovieRating VALUES
+	-- Attributes: RatingID movieID score, movieReview
 	(1, 3, 5, 'I think we need to do something about this'),
     (2, 1, 4, 'I hate bugs!'),
     (3, 2, 4.5, 'Masterpiece!'),
@@ -467,16 +651,11 @@ INSERT INTO MovieRating VALUES
 	(8, 9, 1, 'I cannot BELIEVE how they gave such SOUL to a rock')
 ;
 
-/*                = ActorRating Inserts =
-Attributes:
-	ratingID NUMERIC(10) NOT NULL,
-	actorID CHAR(11) NOT NULL,
-	score NUMERIC(2,1)
 
-	CONSTRAINT chkActScore 
-		CHECK (score BETWEEN 1 AND 5)
-*/
+
+--                = ActorRating Inserts =
 INSERT INTO ActorRating VALUES
+	-- Attributes: ratingID, actorID, score
     (11, 1, 4.5),
     (12, 2, 4),
     (13, 3, 5),
@@ -485,12 +664,9 @@ INSERT INTO ActorRating VALUES
     (16, 6, 4.9)
 ;
 
-/*             = Features Inserts =
-Attributes:
-	movieID NUMERIC(10) NOT NULL,
-	actorID CHAR(11) NOT NULL
-*/
+--                = Features Inserts =
 INSERT INTO Features VALUES
+	-- Attributes: movieID, actorID
     (1, 1),
     (1, 30),
     (1, 31),
@@ -514,15 +690,15 @@ INSERT INTO Features VALUES
     (4, 5),
     (4, 6),
     (5, 4),
-    (6, 6)
+    (6, 6),
+	(10, 8),
+	(11, 9),
+	(12, 10)
 ;
 
-/*                = Genre Inserts =
-Attributes:
-	movieID NUMERIC(10) NOT NULL
-	genreString VARCHAR(25)
-*/
+--                = Genre Inserts =
 INSERT INTO Genre VALUES
+    -- Attributes: movieID, genreString
 	(1, 'Action'),
     (1, 'Science Fiction'),
     (2, 'Black Comedy'),
@@ -540,32 +716,30 @@ INSERT INTO Genre VALUES
     (9,'Hard Science Fiction')
 ;
 
+
 --                 = Queue-Related Insertions = 
 
-/*             = MovieQueue Inserts =
-Attributes:
-	queueID TINYINT NOT NULL PRIMARY KEY
-	movieID NUMERIC(10) NOT NULL
-*/
+--             = MovieQueue Inserts =
+	-- Attributes: queueID, movieID
+
 INSERT INTO MovieQueue VALUES
+	-- queueID, movieID
 	(1, 1), -- StarTroopers Rented
 	(2, 2), -- Inglorious Bastards
 	(3, 4), -- Crazy Rich Asians
 	(4, 4),
     (5, 5),
     (6, 6),
+
 	(21, 21), -- LOTR Fellow
     (22, 22), --LOTR Tower
-	(23, 23)
+    (23, 23)
 ;
 
-/*             = JoinQueue Inserts =
-Attributes:
-	customerID CHAR(11) NOT NULL
-	queueID TINYINT NOT NULL
-	queuePosition TINYINT NOT NULL
-*/
+
 INSERT INTO JoinQueue VALUES
+	-- CustomerID, queueID, Queueposition
+		
 	--Wrote Reviews For perspective movie: Also made an order for the movie with us
 	('C-000000001', 1, 1), -- StarTroopers Rented
 	('C-000000002', 2, 1), -- Inglorious Bastards
@@ -592,13 +766,11 @@ INSERT INTO JoinQueue VALUES
     ('C-000000006', 6, 1 /*placeholder*/)
 ;
 
---                 = Order-Related Insertions = 
 
-/*
-OrderContext Attributes:
-	contextID NUMERIC(1) NOT NULL PRIMARY KEY
-	orderStatus VARCHAR(15) NOT NULL
-*/
+
+
+
+--                 = Order-Related Insertions = 
 INSERT INTO OrderContext VALUES
     (0, 'Pending'),
     (1, 'Completed'),
@@ -606,36 +778,47 @@ INSERT INTO OrderContext VALUES
     (3, 'Missing')
 ;
 
-/*
-Orders Attributes:
-	orderID NUMERIC(4) NOT NULL PRIMARY KEY
-	issueDate DATE NOT NULL
-	dueDate DATE NOT NULL
-	employeeID CHAR(11) NOT NULL
-	customerID CHAR(11) NOT NULL
-	contextID NUMERIC(1) NOT NULL
-	movieID NUMERIC(10) NOT NULL
-	returnDate DATE
-*/
+
 INSERT INTO Orders VALUES
+	-- OrderID, issueDate,duedate,employeeid,customerid, contextid, movie id, returndate
+
 	-- Completed Orders:
     (1, '2026-03-21', DATEADD(week, 2, '2026-03-21'), 'E-000000003', 'C-000000001', 1, 1, '2026-03-25'), --startrooper; later reviews
     (2, '2026-03-23', DATEADD(week, 2, '2026-03-23'), 'E-000000001', 'C-000000002', 1, 2, '2026-04-02'), --Inglorious Bastards; later reviews
     (3, '2026-02-01', DATEADD(week, 2, '2026-02-01'), 'E-000000003', 'C-000000003', 1, 4, '2026-02-12'), --crazy rich asians; later reviews
+
+	
 	-- Completed But Overdue
     (4, '2026-02-20', DATEADD(week, 2, '2026-02-20'), 'E-000000004', 'C-000000004', 0, 8,'2026-03-10'),
     (5, '2026-02-22', DATEADD(week, 2, '2026-02-22'), 'E-000000005', 'C-000000005', 3, 5,'2026-03-09'),
     (6, '2026-02-22', DATEADD(week, 2, '2026-02-22'), 'E-000000006', 'C-000000006', 2, 6,'2026-03-12'),
+
+
 	-- Pending Orders: No return date (null)
 	(7, '2026-05-24', DATEADD(week, 2, '2026-05-24'), 'E-000000004', 'C-000000007', 0, 6, NULL),
 	(8, '2026-05-05', DATEADD(week, 2, '2026-05-05'), 'E-000000005', 'C-000000008', 0, 7, NULL),
 	(9, '2026-05-27', DATEADD(week, 2, '2026-05-27'), 'E-000000006', 'C-000000009', 0, 3, NULL),
+
 	-- Missing Orders: no return date AND context id = missing 
 	(10, '2026-04-20', DATEADD(week, 2, '2026-04-20'),'E-000000005', 'C-000000010', 3, 1, NULL),
 	(11, '2026-04-22', DATEADD(week, 2, '2026-04-22'),'E-000000003', 'C-000000011', 3, 8, NULL),
 	(12, '2026-04-23', DATEADD(week, 2, '2026-04-23'),'E-000000002', 'C-000000012', 3, 9, NULL),
-	-- Repeatedly losing movies
+
+    	-- Repeatedly losing movies
 	(13, '2026-02-23', DATEADD(week, 2, '2026-02-23'),'E-000000001', 'C-000000002', 3, 6, NULL),
 	(14, '2026-03-23', DATEADD(week, 2, '2026-03-23'),'E-000000001', 'C-000000002', 3, 3, NULL),
 	(15, '2026-04-23', DATEADD(week, 2, '2026-04-23'),'E-000000008', 'C-000000002', 3, 21, NULL)
 ;
+
+
+
+-- 						= For Authentication =
+INSERT INTO UserLogin VALUES
+	-- CustID, UserAlias, passwordHash, salt
+
+	-- myNameisFeyn1
+	('C-000000001', 'feynMan','rcjG38bQz98RV/5sFh2tVQJckpfwJk5aOniY3T2sL2E=','Ax28Ppo4UcZ+3MMdcJ3Pmw==' ),
+	
+	-- MyNameIsMicheal1
+	('C-000000003', 'MJ','7xu0fQuUpUVJviypZEkHgexn/DDFUQXUscR4kp8eBS4=' , 'b5BOHnpeg9GSw/QV7Z3k/w==');	
+; 

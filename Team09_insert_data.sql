@@ -402,3 +402,17 @@ INSERT INTO Orders VALUES
 	(14, '2026-03-23', DATEADD(week, 2, '2026-03-23'),'E-000000001', 'C-000000002', 3, 3, NULL),
 	(15, '2026-04-23', DATEADD(week, 2, '2026-04-23'),'E-000000008', 'C-000000002', 3, 21, NULL)
 ;
+
+
+
+-- 						= For Authentication =
+INSERT INTO UserLogin VALUES
+	-- CustID, UserAlias, passwordHash, salt
+
+	-- myNameisFeyn1
+	('C-000000001', 'feynMan','rcjG38bQz98RV/5sFh2tVQJckpfwJk5aOniY3T2sL2E=','Ax28Ppo4UcZ+3MMdcJ3Pmw==' ),
+	
+	-- MyNameIsMicheal1
+	('C-000000003', 'MJ','7xu0fQuUpUVJviypZEkHgexn/DDFUQXUscR4kp8eBS4=' , 'b5BOHnpeg9GSw/QV7Z3k/w==');	
+; 
+

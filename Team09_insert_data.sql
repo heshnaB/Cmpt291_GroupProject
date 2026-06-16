@@ -319,10 +319,13 @@ INSERT INTO MovieQueue VALUES
 	-- queueID, movieID
 	(1, 1), -- StarTroopers Rented
 	(2, 2), -- Inglorious Bastards
-	(3, 4), -- Crazy Rich Asians
-	(4, 4),
+	(3, 3), 
+	(4, 4), -- Crazy Rich Asians
     (5, 5),
     (6, 6),
+	(7, 7),
+	(8, 8),
+	(9, 9),
 
 	(21, 21), -- LOTR Fellow
     (22, 22), --LOTR Tower

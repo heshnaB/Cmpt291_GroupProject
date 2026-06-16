@@ -127,6 +127,7 @@ CREATE TABLE JoinQueue(
 	queueID TINYINT NOT NULL,
 	queuePosition TINYINT NOT NULL
 	
+	PRIMARY KEY (FK_customerID, queueID),
 	FOREIGN KEY (FK_customerID) REFERENCES Customer(customerID),
 	FOREIGN KEY (queueID) REFERENCES MovieQueue(queueID)
 );
